@@ -1,0 +1,19 @@
+----------------------------------------------------------------
+Fri Dec 18 12:08:10 CET 2015:
+Avvio della versione di Derby The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): istanza a816c00e-0151-b4c6-8d97-000006bc5920
+sulla directory di database /home/matteo/Documenti/Scuola/programmazioneWeb/CinemaMultisala/DB/cinemamultisalaDB con caricatore classi sun.misc.Launcher$AppClassLoader@33909752 
+Caricato da file:/opt/Apache/db-derby-10.12.1.1-bin/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_65-b17
+user.dir=/home/matteo/Documenti/Scuola/programmazioneWeb/CinemaMultisala/DB
+os.name=Linux
+os.arch=amd64
+os.version=3.19.0-32-generic
+derby.system.home=null
+Programma di caricamento classe database avviato - derby.database.classpath=''
+----------------------------------------------------------------
+Fri Dec 18 12:08:14 CET 2015: arresto in corso del motore di Derby
+----------------------------------------------------------------
+Fri Dec 18 12:08:14 CET 2015:
+Arresto dell'istanza a816c00e-0151-b4c6-8d97-000006bc5920 nella directory del database /home/matteo/Documenti/Scuola/programmazioneWeb/CinemaMultisala/DB/cinemamultisalaDB con il caricatore di classi sun.misc.Launcher$AppClassLoader@33909752 
+----------------------------------------------------------------
