@@ -1,0 +1,1 @@
+UPDATE APP.FILM SET TITOLO = 'Mega shark', ID_GENERE = 1, URL_TRAILER = 'https://www.youtube.com/watch?v=I16_8l0yS-g', DURATA = 120, TRAMA = 'Una cavolata di film', URI_LOCANDINA = 'http://dc-theme.dreadcentralmedi.netdna-cdn.com/wp-content/uploads/2015/02/Mega-Shark.jpg' WHERE ID_FILM = 1;
