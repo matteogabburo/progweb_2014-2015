@@ -2,6 +2,7 @@
 .build
 .out
 .idea
+.out/*
 
 # Package Files #
 *.jar
