@@ -24,13 +24,15 @@
     <h1>Cinema Multisala</h1>
 </header>
 
-
-<!-- Locandine **************************************** -->
-<div>
-<jsp:include page="/filmPreviewTable" />
+<div class = "row">
+    <div class=\"col-md-2\"></div>
+    <!-- Locandine **************************************** -->
+    <div class=\"col-md-8\">
+        <jsp:include page="/filmPreviewTable" />
+    </div>
+    <!-- ************************************************** -->
+    <div class=\"col-md-2\"></div>
 </div>
-<!-- ************************************************** -->
-
 
 <footer>
 

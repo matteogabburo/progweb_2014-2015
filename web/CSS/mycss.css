@@ -1,19 +1,25 @@
 #filmsPreview
 {
-
+    height: 250px;
 }
 
 .filmpreviewbox
 {
-    float: left;
+    border: black solid 1px;
 }
 
 .filmpreviewbox title
 {
+    word-wrap:break-word;
+}
 
+.filmpreviewbox duration
+{
+    text-align: center;
 }
 
 .filmpreviewbox img
 {
     width: 200px;
+    height: 278px;
 }
