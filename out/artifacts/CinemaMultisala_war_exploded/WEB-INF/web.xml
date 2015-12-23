@@ -3,26 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
-    <filter>
-        <filter-name>Filter_register</filter-name>
-        <filter-class>introwebprog.filters.Filter_register</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>Filter_register</filter-name>
-        <servlet-name>Serv_register</servlet-name>
-    </filter-mapping>
-
-
-
-    <!--<filter>
-        <filter-name>Filter_openFilm</filter-name>
-        <filter-class>introwebprog.filters.Filter_openFilm</filter-class>
-    </filter>
-    <filter>
-        <filter-name>Filter_filmPreview</filter-name>
-        <filter-class>introwebprog.filters.Filter_filmPreview</filter-class>
-    </filter>-->
 
     <servlet>
         <servlet-name>Serv_filmPreviewTable</servlet-name>
@@ -41,6 +21,19 @@
         <servlet-name>Serv_authentication</servlet-name>
         <servlet-class>introwebprog.servlets.Serv_authentication</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Serv_session</servlet-name>
+        <servlet-class>introwebprog.servlets.Serv_session</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Serv_logoff</servlet-name>
+        <servlet-class>introwebprog.servlets.Serv_logoff</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Serv_logoff</servlet-name>
+        <url-pattern>/logoff</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>Serv_authentication</servlet-name>
@@ -59,5 +52,30 @@
         <servlet-name>Serv_register</servlet-name>
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
+
+
+<servlet-mapping>
+    <servlet-name>Serv_session</servlet-name>
+    <url-pattern>/session</url-pattern>
+</servlet-mapping>
+
+    <filter>
+        <filter-name>Filter_register</filter-name>
+        <filter-class>introwebprog.filters.Filter_register</filter-class>
+    </filter>
+    <filter>
+        <filter-name>Filter_authentication</filter-name>
+        <filter-class>introwebprog.filters.Filter_authentication</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Filter_authentication</filter-name>
+        <servlet-name>Serv_authentication</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>Filter_register</filter-name>
+        <servlet-name>Serv_register</servlet-name>
+    </filter-mapping>
 
 </web-app>

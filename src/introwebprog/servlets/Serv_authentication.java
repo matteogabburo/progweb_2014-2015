@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -28,11 +29,17 @@ public class Serv_authentication extends HttpServlet {
             if(dao.login(mail, passwd))
             {
                 p.println("Login successfull");
+                HttpSession session = request.getSession();
+                session.setAttribute("USER_MAIL", mail);
             }
             else
             {
                 p.println("Login not successfull");
             }
+
+            String retPath = request.getRequestURL().toString();
+            retPath = retPath.replace("/auth", "");
+            response.sendRedirect(retPath);
         }
     }
 

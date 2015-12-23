@@ -1,9 +1,30 @@
 <div class="container">
      <div class="row">
         <h1>Cinema Multisala</h1>
-        <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#modal-head-login">login</button>
-        <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#modal-head-register">register</button>
-    </div>
+
+
+         <%
+             HttpSession s = null;
+             s = request.getSession(false);
+
+             if(s.getAttribute("USER_MAIL") == null)
+             {
+                 out.println("<button type=\"button\" class=\"btn btn-primary\"  data-toggle=\"modal\" data-target=\"#modal-head-login\">login</button>");
+                 out.println("<button type=\"button\" class=\"btn btn-primary\"  data-toggle=\"modal\" data-target=\"#modal-head-register\">register</button>");
+             }
+             else
+             {
+                 out.println("<div class = \"user-profile-header\">"+session.getAttribute("USER_MAIL")+"</div>");
+                 out.println("<form role=\"form\" action=\""+request.getRequestURL()+"logoff\" method=\"POST\">");
+                 out.println("<button type=\"submit\" class=\"btn btn-primary\">logoff</button>");
+                 out.println("</form>");
+             }
+         %>
+
+
+
+
+     </div>
 
     <!-- Modal -->
     <div class="modal fade" id="modal-head-register" role="dialog">
@@ -66,7 +87,7 @@
                         </div>
 
                         <button type="reset" class="btn btn-default">Cancel</button>
-                        <button type="submit" class="btn btn-default">Register</button>
+                        <button type="submit" class="btn btn-default">Login</button>
 
                     </form>
                 </div>

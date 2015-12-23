@@ -31,8 +31,6 @@ public class Serv_register extends HttpServlet {
             u.setPassword(passwd);
             u.setCredito(0.0);//inizialmente vuoto
 
-            System.out.println("poapsodaposdapsodapos *********************************************************************************");
-
 
             PrintWriter p = response.getWriter();
             if(dao.registerNewUser(u))
@@ -43,11 +41,14 @@ public class Serv_register extends HttpServlet {
             {
                 p.println("Registration not successfull");
             }
+
+            String retPath = request.getRequestURL().toString();
+            retPath = retPath.replace("/register", "");
+            response.sendRedirect(retPath);
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("ASdADAsdASD *********************************************************************************");
 
     }
 }

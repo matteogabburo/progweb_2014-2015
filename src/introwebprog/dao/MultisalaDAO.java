@@ -86,8 +86,6 @@ public class MultisalaDAO {
         }
 
 
-        System.out.println("********************************************************");
-
         try {
             //work with data
             ArrayList<Film> res = new ArrayList<Film>();
@@ -104,11 +102,8 @@ public class MultisalaDAO {
                     s.setUrlTrailer(rs.getString("URL_TRAILER"));
                     s.setIdGenere(rs.getInt("ID_GENERE"));
 
-                    System.out.println("Ciao ****************************");
-
-                    res.add(s);
+                     res.add(s);
                 }
-            System.out.println("Buonasera ****************************");
 
             //close rs, conn, and stmt
             if (rs != null)
