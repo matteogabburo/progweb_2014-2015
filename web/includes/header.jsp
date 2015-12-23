@@ -23,7 +23,7 @@
                             <input type="text" class="form-control" id="mail" name = "mail">
                         </div>
                         <div class="form-group">
-                            <label for="pwd">Password:</label>
+                            <label for="pwd">Password (more than 6 characters):</label>
                             <input type="password" class="form-control" id="pwd" name = "pwd">
                         </div>
                         <div class="form-group">
@@ -31,7 +31,7 @@
                             <input type="password" class="form-control" id="pwd2">
                         </div>
 
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="reset" class="btn btn-default">Cancel</button>
                         <button type="submit" class="btn btn-default">Register</button>
 
                     </form>
@@ -51,13 +51,27 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
+                    <h4 class="modal-title">Login</h4>
                 </div>
+
                 <div class="modal-body">
-                    <p>Some text in the modal.</p>
+                    <form role="form" action="<%= request.getRequestURL() %>auth" method="POST">
+                        <div class="form-group">
+                            <label for="mail">your mail:</label>
+                            <input type="text" class="form-control" id="logmail" name = "mail">
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">your password :</label>
+                            <input type="password" class="form-control" id="logpwd" name = "pwd">
+                        </div>
+
+                        <button type="reset" class="btn btn-default">Cancel</button>
+                        <button type="submit" class="btn btn-default">Register</button>
+
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
                 </div>
             </div>
 

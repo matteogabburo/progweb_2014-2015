@@ -37,6 +37,15 @@
         <servlet-name>Serv_register</servlet-name>
         <servlet-class>introwebprog.servlets.Serv_register</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Serv_authentication</servlet-name>
+        <servlet-class>introwebprog.servlets.Serv_authentication</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Serv_authentication</servlet-name>
+        <url-pattern>/auth</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>Serv_filmPreviewTable</servlet-name>

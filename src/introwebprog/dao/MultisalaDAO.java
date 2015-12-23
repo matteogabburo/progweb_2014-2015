@@ -293,4 +293,44 @@ public class MultisalaDAO {
 
         return ret;
     }
+
+    public boolean login(String mail, String passwd)
+    {
+        String query = "select ID_UTENTE from APP.UTENTE where EMAIL='"+mail+"' AND PASSWORD='"+passwd+"'";
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        boolean ret = false;
+
+        try {
+            //work with data
+            if (rs.next())
+            {
+                ret = true;
+            }
+
+            //close rs, conn, and stmt
+            if (rs != null)
+                rs.close();
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ret;
+    }
 }
