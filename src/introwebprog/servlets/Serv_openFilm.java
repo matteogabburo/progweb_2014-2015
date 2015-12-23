@@ -21,8 +21,6 @@ public class Serv_openFilm extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String param = request.getParameter("id");
 
-        System.out.println("BUONGIORNO *********************************************************************************");
-
         if(param != null)
         {
             Integer tmp = Integer.parseInt(param);

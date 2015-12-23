@@ -65,7 +65,5 @@ public class Serv_filmPreviewTable extends HttpServlet {
         p.println(res);
 
         request.setAttribute("previewFilms", res);
-        /*RequestDispatcher view=request.getRequestDispatcher("/index.jsp");
-        view.forward(request,response);*/
     }
 }

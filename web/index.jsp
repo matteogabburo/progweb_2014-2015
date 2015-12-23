@@ -21,7 +21,7 @@
 </head>
 <body>
 <header>
-    <h1>Cinema Multisala</h1>
+    <jsp:include page="includes/header.jsp" />
 </header>
 
 <div class = "row">

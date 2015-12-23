@@ -8,6 +8,21 @@
     border: black solid 1px;
 }
 
+.float-left
+{
+    float: left;
+}
+
+.float-right
+{
+    float: right;
+}
+
+.form-group .form-control
+{
+    width: 200px;
+}
+
 .filmpreviewbox title
 {
     word-wrap:break-word;

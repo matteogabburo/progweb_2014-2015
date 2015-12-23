@@ -3,6 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+    <filter>
+        <filter-name>Filter_register</filter-name>
+        <filter-class>introwebprog.filters.Filter_register</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Filter_register</filter-name>
+        <servlet-name>Serv_register</servlet-name>
+    </filter-mapping>
+
+
+
     <!--<filter>
         <filter-name>Filter_openFilm</filter-name>
         <filter-class>introwebprog.filters.Filter_openFilm</filter-class>
@@ -21,6 +33,11 @@
         <servlet-class>introwebprog.servlets.Serv_openFilm</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>Serv_register</servlet-name>
+        <servlet-class>introwebprog.servlets.Serv_register</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>Serv_filmPreviewTable</servlet-name>
         <url-pattern>/filmPreviewTable</url-pattern>
@@ -28,6 +45,10 @@
     <servlet-mapping>
         <servlet-name>Serv_openFilm</servlet-name>
         <url-pattern>/film</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Serv_register</servlet-name>
+        <url-pattern>/register</url-pattern>
     </servlet-mapping>
 
 </web-app>
