@@ -37,8 +37,12 @@ public class Serv_authentication extends HttpServlet {
                 p.println("Login not successfull");
             }
 
-            String retPath = request.getRequestURL().toString();
-            retPath = retPath.replace("/auth", "");
+            //String retPath = request.getRequestURL().toString();
+            //retPath = retPath.replace("auth", "");
+
+            //temporaneo
+            String retPath = "http://localhost:8080/CinemaMultisala_war_exploded/";
+
             response.sendRedirect(retPath);
         }
     }

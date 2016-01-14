@@ -11,9 +11,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Created by matteo on 21/12/15.
+ * Created by matteo on 11/01/16.
  */
-public class Serv_openFilm extends HttpServlet {
+public class Serv_prenotation extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
@@ -21,8 +21,7 @@ public class Serv_openFilm extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String param = request.getParameter("id");
 
-        if(param != null)
-        {
+        if (param != null) {
             Integer tmp = Integer.parseInt(param);
             int idfilm = tmp.intValue();
 
@@ -31,7 +30,7 @@ public class Serv_openFilm extends HttpServlet {
 
 
             String res = "";
-            res +=  "<html>\n"+
+            res += "<html>\n" +
                     "<head>\n" +
                     "    <title>Cinema Multisala</title>\n" +
                     "    <link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css\">\n" +
@@ -43,30 +42,12 @@ public class Serv_openFilm extends HttpServlet {
                     "<body>";
 
 
-
             request.getRequestDispatcher("/includes/header.jsp").include(request, response);
-
-
-            res += "<img alt=\""+film.getTitolo()+"\" class=\"film-img img-responsive img-thumbnail\" src=\'"+film.getUriLocandina()+"\'/>";
-
-
-            res += "\n<div class=\"film-title\"><h2>Titolo :</h2> \n"+film.getTitolo() + "</div>\n";
-            res += "\n<div class=\"film-trama\"><h2>Trama :</h2> \n"+film.getTrama() + "</div>\n";
-
 
             res += "\n" +
                     "<footer>\n" +
-                    "\n" +
-
-                    "<div class=\"row\">" +
-                    "<a href=\"http://localhost:8080/CinemaMultisala_war_exploded/prenotation?id="+film.getIdFilm()+"\">" +
-                    "<button type=\"button\" class=\"btn btn-primary\">Prenota</button>"+
-                    "</a>" +
-                    "</div>"+
-
                     "</footer>\n" +
-                    "\n" +
-                    "\n" +
+                    "CIAO</br>" +
                     "</body>\n" +
                     "</html>";
 

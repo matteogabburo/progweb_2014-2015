@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form role="form" action="<%= request.getRequestURL() %>register" method="POST">
+                    <form role="form" action="<%= request.getContextPath() %>/register" method="POST">
                         <div class="form-group">
                             <label for="mail">Mail:</label>
                             <input type="text" class="form-control" id="mail" name = "mail">
@@ -54,7 +54,6 @@
 
                         <button type="reset" class="btn btn-default">Cancel</button>
                         <button type="submit" class="btn btn-default">Register</button>
-
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -76,7 +75,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form role="form" action="<%= request.getRequestURL() %>auth" method="POST">
+                    <form role="form" action="<%= request.getContextPath() %>/auth" method="POST">
                         <div class="form-group">
                             <label for="mail">your mail:</label>
                             <input type="text" class="form-control" id="logmail" name = "mail">

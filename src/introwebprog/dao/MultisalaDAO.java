@@ -168,6 +168,50 @@ public class MultisalaDAO {
         return s;
     }
 
+    public Spettacolo getSpettacoloById(int idfilm)
+    {
+        String query = "select * from APP.SPETTACOLO WHERE APP.SPETTACOLO.ID_FILM = " + idfilm;
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        Spettacolo s = null;
+
+        try {
+            //work with data
+            if (rs != null) { //Retrieve by column name
+                while (rs.next()) {
+                    s = new Spettacolo();
+
+                    s.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+                    s.setIdSala(rs.getInt("ID_SALA"));
+                    s.setIdFilm(idfilm);
+                    s.setDataOra(rs.getTimestamp("DATA_ORA"));
+                }
+            }
+            //close rs, conn, and stmt
+            if (rs != null)
+                rs.close();
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return s;
+    }
 
     public boolean registerNewUser(Utente u) {
 
@@ -205,8 +249,8 @@ public class MultisalaDAO {
             e.printStackTrace();
         }
 
-    return s;
-}
+        return s;
+    }
 
     private int getMaxUserId()
     {

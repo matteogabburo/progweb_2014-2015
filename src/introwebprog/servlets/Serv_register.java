@@ -42,8 +42,12 @@ public class Serv_register extends HttpServlet {
                 p.println("Registration not successfull");
             }
 
-            String retPath = request.getRequestURL().toString();
-            retPath = retPath.replace("/register", "");
+            //String retPath = request.getRequestURL().toString();
+            //retPath = retPath.replace("/register", "");
+
+            //temporaneo
+            String retPath = "http://localhost:8080/CinemaMultisala_war_exploded/";
+
             response.sendRedirect(retPath);
         }
     }
