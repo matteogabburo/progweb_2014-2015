@@ -15,7 +15,7 @@
              else
              {
                  out.println("<div class = \"user-profile-header\">"+session.getAttribute("USER_MAIL")+"</div>");
-                 out.println("<form role=\"form\" action=\""+request.getRequestURL()+"logoff\" method=\"POST\">");
+                 out.println("<form role=\"form\" action=\"http://localhost:8080/CinemaMultisala_war_exploded/logoff\" method=\"POST\">");
                  out.println("<button type=\"submit\" class=\"btn btn-primary\">logoff</button>");
                  out.println("</form>");
              }

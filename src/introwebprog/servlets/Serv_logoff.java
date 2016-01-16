@@ -23,8 +23,7 @@ public class Serv_logoff extends HttpServlet {
         PrintWriter p = response.getWriter();
         p.println(request.getRequestURL().toString());
 
-        String retPath = request.getRequestURL().toString();
-        retPath = retPath.replace("/logoff", "");
+        String retPath = "http://localhost:8080/CinemaMultisala_war_exploded/";
         response.sendRedirect(retPath);
     }
 
