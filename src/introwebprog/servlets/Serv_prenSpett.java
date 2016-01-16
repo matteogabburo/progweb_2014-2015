@@ -34,10 +34,9 @@ public class Serv_prenSpett extends HttpServlet {
             int idSpett = tmp.intValue();
 
             MultisalaDAO dao = new MultisalaDAO();
+
             List<Posto> posti = dao.getPostiByIdSpett(idSpett);
-
             Prezzo prezzo = dao.getPrezzoByidSpett(idSpett);
-
 
             String res = "";
 
@@ -71,7 +70,7 @@ public class Serv_prenSpett extends HttpServlet {
                 res+="<tr>";
                 for (int j = 0; j < postiY; j++) {
                     res += "<td>";
-                    res += "<a class=\"descr\" id=\""+"x"+i+"y"+j+"A"+"\">";
+                    res += "<a type=\"button\" class=\"descr\" id=\""+"x"+i+"y"+j+"A"+"\">";
                     res += "<img src=\""+sala[i][j]+"\" id=\"im"+"x"+i+"y"+j+"A\" height=\"40px\" width=\"40px\"/>";
                     res += "</a>";
                     res += "</td>";
@@ -86,15 +85,24 @@ public class Serv_prenSpett extends HttpServlet {
             res += "\n" +
                     "<footer>\n" +
 
-
                     "<div>Totale costo biglietto/i : <div id=\"displayPrezzo\">0</div> €</div>"+
-                    "<button class=\"btn btn-primary\" id=\"btnPrenotazione\"type=\"button\">Procedi con Pagamento</button>"+
+
+
+
+                    "<form name=\"pagare\" method=\"post\" action=\"http://localhost:8080/CinemaMultisala_war_exploded/prenotation/spett/endprenotation\">"+
+                    "<button type=\"submit\" name=\"prenotation\" class=\"btn btn-primary\" id=\"btnPrenotazione\"type=\"button\">Procedi con Pagamento</button>"+
+                    "</form>"+
+
+
+
+
+
 
                     "</footer>\n" +
 
                     "<script type=\"text/javascript\" src=\"http://code.jquery.com/jquery-latest.min.js\"></script>\n" +
                     "                    <script>" +
-                    "                    var output = \"\";" +
+                    "                    var output = \"S"+idSpett+"P\";" +
                     "                    var counterPosti = 0;" +
                     "                    $(document).ready(function() {\n" +
                     "                            $('.descr').click(function(){" +
@@ -112,7 +120,8 @@ public class Serv_prenSpett extends HttpServlet {
                     "                                { alert('Posto occupato');}" +
                     "                          console.log(output);" +
 
-                    "                          $(\"div#displayPrezzo\").html(counterPosti*"+prezzo.getPrezzo()+");"+
+                    "                          $(\"div#displayPrezzo\").html(counterPosti*"+prezzo.getPrezzo()+");" +
+                    "                          document.getElementById('btnPrenotazione').value = output;"+
 
                     "                            });" +
                     "                        });" +

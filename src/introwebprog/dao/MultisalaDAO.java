@@ -166,7 +166,7 @@ public class MultisalaDAO {
         return s;
     }
 
-    public List<Spettacolo> getSpettacoloById(int idfilm)
+    public List<Spettacolo> getSpettacoloByFilmId(int idfilm)
     {
         String query = "select * from APP.SPETTACOLO WHERE APP.SPETTACOLO.ID_FILM = " + idfilm;
 
@@ -561,5 +561,258 @@ public class MultisalaDAO {
         }
 
         return s;
+    }
+
+    private int getMaxidPrenotation()
+    {
+        String query = "select MAX(APP.PRENOTAZIONE.ID_PRENOTAZIONE) as ID_PRENOTAZIONE from APP.PRENOTAZIONE";
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        int out = 1;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            //work with data
+            if (rs != null) { //Retrieve by column name
+                while (rs.next()) {
+                    out = rs.getInt("ID_PRENOTAZIONE");
+                }
+            }
+            //close rs, conn, and stmt
+            if (rs != null)
+                rs.close();
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+
+    private int getIdUserByMail(String mail)
+    {
+        String query = "select APP.UTENTE.ID_UTENTE from APP.UTENTE WHERE APP.UTENTE.EMAIL ='" + mail+"'";
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        int out = 1;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            //work with data
+            if (rs != null) { //Retrieve by column name
+                while (rs.next()) {
+                    out = rs.getInt("ID_UTENTE");
+                }
+            }
+            //close rs, conn, and stmt
+            if (rs != null)
+                rs.close();
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+
+
+    public boolean newPrenotation(String user_mail, List<Posto> posti, int idSpett) {
+
+        int userId = this.getIdUserByMail(user_mail);
+        int idPrezzo = this.getPrezzoByidSpett(idSpett).getIdPrezzo();
+        int idSala = this.getIdSalaByIdSpettacolo(idSpett);
+
+
+        System.out.println("*******************************************************");
+        System.out.println(userId);
+        System.out.println(idPrezzo);
+        System.out.println(idSala);
+        System.out.println("*******************************************************");
+
+
+
+        for(int i = 0; i < posti.size(); i++) {
+            int idPosto = this.newPosto(posti.get(i), idSala);
+            int idPrenotazione = this.getMaxidPrenotation() + 1;
+
+            String query = "INSERT INTO APP.PRENOTAZIONE (ID_PRENOTAZIONE, ID_UTENTE, ID_SPETTACOLO, ID_PREZZO, ID_POSTO, DATA_ORA_OPERAZIONE)" +
+                    " VALUES ("+ idPrenotazione+"," +userId+","+ idSpett + ","+idPrezzo+"," +idPosto+ ",CURRENT_TIMESTAMP )";
+
+            Connection conn = null;
+            PreparedStatement stmt = null;
+
+            int rs = 0;
+
+            try {
+                DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+                conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+                stmt = conn.prepareStatement(query);
+                rs = stmt.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            if (rs <= 0)
+                return false;
+
+            try {
+                if (stmt != null)
+                    stmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
+    private int getIdSalaByIdSpettacolo(int idSpett) {
+        String query = "select APP.SPETTACOLO.ID_SALA from APP.SPETTACOLO WHERE ID_SPETTACOLO = "+idSpett;
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        int out = 1;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            //work with data
+            if (rs != null) { //Retrieve by column name
+                while (rs.next()) {
+                    out = rs.getInt("ID_SALA");
+                }
+            }
+            //close rs, conn, and stmt
+            if (rs != null)
+                rs.close();
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+        
+    }
+
+    private int newPosto(Posto posto, int idSala) {
+
+
+            int idPosto = this.getMaxIdPosto() + 1;
+
+
+            String query = "INSERT INTO APP.POSTO (ID_POSTO, ID_SALA, RIGA, COLONNA, ESISTE)" +
+                    " VALUES ("+idPosto+","+ idSala+","+ posto.getRiga()+"," +posto.getColonna()+", 1)";
+
+            Connection conn = null;
+            PreparedStatement stmt = null;
+
+            int rs = 0;
+            boolean s = false;
+
+            try {
+                DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+                conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+                stmt = conn.prepareStatement(query);
+                rs = stmt.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+
+            try {
+                if (stmt != null)
+                    stmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        return idPosto;
+
+    }
+
+    private int getMaxIdPosto() {
+        String query = "select MAX(ID_POSTO) as ID_POSTO from APP.POSTO";
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        int out = 1;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            //work with data
+            if (rs != null) { //Retrieve by column name
+                while (rs.next()) {
+                    out = rs.getInt("ID_POSTO");
+                }
+            }
+            //close rs, conn, and stmt
+            if (rs != null)
+                rs.close();
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return out;
     }
 }

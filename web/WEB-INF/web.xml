@@ -37,6 +37,15 @@
         <servlet-name>Serv_prenSpett</servlet-name>
         <servlet-class>introwebprog.servlets.Serv_prenSpett</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Serv_endPrenotation</servlet-name>
+        <servlet-class>introwebprog.servlets.Serv_endPrenotation</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Serv_endPrenotation</servlet-name>
+        <url-pattern>/prenotation/spett/endprenotation</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>Serv_logoff</servlet-name>
