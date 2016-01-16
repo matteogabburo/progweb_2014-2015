@@ -1,8 +1,6 @@
 package introwebprog.dao;
 
-import introwebprog.models.Film;
-import introwebprog.models.Spettacolo;
-import introwebprog.models.Utente;
+import introwebprog.models.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -168,7 +166,7 @@ public class MultisalaDAO {
         return s;
     }
 
-    public Spettacolo getSpettacoloById(int idfilm)
+    public List<Spettacolo> getSpettacoloById(int idfilm)
     {
         String query = "select * from APP.SPETTACOLO WHERE APP.SPETTACOLO.ID_FILM = " + idfilm;
 
@@ -185,18 +183,20 @@ public class MultisalaDAO {
             e.printStackTrace();
         }
 
-        Spettacolo s = null;
+        List<Spettacolo> sList = new ArrayList<>();
 
         try {
             //work with data
             if (rs != null) { //Retrieve by column name
                 while (rs.next()) {
-                    s = new Spettacolo();
+                    Spettacolo s = new Spettacolo();
 
                     s.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
                     s.setIdSala(rs.getInt("ID_SALA"));
                     s.setIdFilm(idfilm);
                     s.setDataOra(rs.getTimestamp("DATA_ORA"));
+
+                    sList.add(s);
                 }
             }
             //close rs, conn, and stmt
@@ -210,7 +210,7 @@ public class MultisalaDAO {
             e.printStackTrace();
         }
 
-        return s;
+        return sList;
     }
 
     public boolean registerNewUser(Utente u) {
@@ -371,5 +371,195 @@ public class MultisalaDAO {
         }
 
         return ret;
+    }
+
+    private List<Posto> getPostiByIdSpett_aux(List<Prenotazione> prenList)
+    {
+
+        List<Posto> sList = new ArrayList<>();
+
+        for(int i = 0; i < prenList.size(); i++)
+        {
+            String query = "select * from APP.POSTO WHERE APP.POSTO.ID_POSTO = " + prenList.get(i).getIdPosto();
+
+            Connection conn = null;
+            Statement stmt = null;
+            ResultSet rs = null;
+
+            try {
+                DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+                conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                //work with data
+                if (rs != null) { //Retrieve by column name
+                    while (rs.next()) {
+                        Posto s = new Posto();
+
+                        s.setIdPosto(rs.getInt("ID_POSTO"));
+                        s.setColonna(rs.getInt("COLONNA"));
+                        s.setRiga(rs.getInt("RIGA"));
+                        s.setEsiste(rs.getBoolean("ESISTE"));
+                        s.setIdSala(rs.getInt("ID_SALA"));
+
+                        sList.add(s);
+                    }
+                }
+                //close rs, conn, and stmt
+                if (rs != null)
+                    rs.close();
+                if (stmt != null)
+                    stmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return sList;
+    }
+
+
+
+    public List<Posto> getPostiByIdSpett(int idSpett) {
+        String query = "select * from APP.PRENOTAZIONE WHERE APP.PRENOTAZIONE.ID_SPETTACOLO = " + idSpett;
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        List<Prenotazione> sList = new ArrayList<>();
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            //work with data
+            if (rs != null) { //Retrieve by column name
+                while (rs.next()) {
+                    Prenotazione s = new Prenotazione();
+
+                    s.setIdPrenotazione(rs.getInt("ID_PRENOTAZIONE"));
+                    s.setDataOraOperazione(rs.getTimestamp("DATA_ORA_OPERAZIONE"));
+                    s.setIdPosto(rs.getInt("ID_POSTO"));
+                    s.setIdPrezzo(rs.getInt("ID_PREZZO"));
+                    s.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+                    s.setIdUtente(rs.getInt("ID_UTENTE"));
+
+                    sList.add(s);
+                }
+            }
+            //close rs, conn, and stmt
+            if (rs != null)
+                rs.close();
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return getPostiByIdSpett_aux(sList);
+    }
+
+    public Prezzo getPrezzoByidSpett(int idSpett) {
+
+        int idPrezzo = -1;
+
+
+
+        String query = "select APP.PRENOTAZIONE.ID_PREZZO from APP.PRENOTAZIONE WHERE APP.PRENOTAZIONE.ID_SPETTACOLO = " + idSpett;
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        List<Prenotazione> sList = new ArrayList<>();
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            //work with data
+
+            if (rs != null) { //Retrieve by column name
+                while (rs.next()) {
+                    idPrezzo = rs.getInt("ID_PREZZO");
+                }
+            }
+            //close rs, conn, and stmt
+            if (rs != null)
+                rs.close();
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return getPrezzoByIdPrezzo(idPrezzo);
+    }
+
+    public Prezzo getPrezzoByIdPrezzo(int idPrezzo) {
+        String query = "select * from APP.PREZZO WHERE APP.PREZZO.ID_PREZZO = " + idPrezzo;
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        Prezzo s = null;
+
+        try {
+            //work with data
+            if (rs != null) { //Retrieve by column name
+                while (rs.next()) {
+                    s = new Prezzo();
+
+                    s.setIdPrezzo(rs.getInt("ID_PREZZO"));
+                    s.setPrezzo(rs.getDouble("PREZZO"));
+                    s.setTipo(rs.getString("TIPO"));
+                }
+            }
+            //close rs, conn, and stmt
+            if (rs != null)
+                rs.close();
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return s;
     }
 }

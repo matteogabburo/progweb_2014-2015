@@ -13,6 +13,10 @@ import java.sql.Timestamp;
 public class Prenotazione {
     private int idPrenotazione;
     private Timestamp dataOraOperazione;
+    private int idPrezzo;
+    private int idPosto;
+    private int idSpettacolo;
+    private int idUtente;
 
     @Id
     @Column(name = "ID_PRENOTAZIONE")
@@ -34,24 +38,35 @@ public class Prenotazione {
         this.dataOraOperazione = dataOraOperazione;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Prenotazione that = (Prenotazione) o;
-
-        if (idPrenotazione != that.idPrenotazione) return false;
-        if (dataOraOperazione != null ? !dataOraOperazione.equals(that.dataOraOperazione) : that.dataOraOperazione != null)
-            return false;
-
-        return true;
+    public int getIdPrezzo() {
+        return idPrezzo;
     }
 
-    @Override
-    public int hashCode() {
-        int result = idPrenotazione;
-        result = 31 * result + (dataOraOperazione != null ? dataOraOperazione.hashCode() : 0);
-        return result;
+    public void setIdPrezzo(int idPrezzo) {
+        this.idPrezzo = idPrezzo;
+    }
+
+    public int getIdPosto() {
+        return idPosto;
+    }
+
+    public void setIdPosto(int idPosto) {
+        this.idPosto = idPosto;
+    }
+
+    public int getIdSpettacolo() {
+        return idSpettacolo;
+    }
+
+    public void setIdSpettacolo(int idSpettacolo) {
+        this.idSpettacolo = idSpettacolo;
+    }
+
+    public int getIdUtente() {
+        return idUtente;
+    }
+
+    public void setIdUtente(int idUtente) {
+        this.idUtente = idUtente;
     }
 }

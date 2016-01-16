@@ -33,6 +33,10 @@
         <servlet-name>Serv_prenotation</servlet-name>
         <servlet-class>introwebprog.servlets.Serv_prenotation</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Serv_prenSpett</servlet-name>
+        <servlet-class>introwebprog.servlets.Serv_prenSpett</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>Serv_logoff</servlet-name>
@@ -67,6 +71,12 @@
         <servlet-name>Serv_prenotation</servlet-name>
         <url-pattern>/prenotation</url-pattern>
     </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>Serv_prenSpett</servlet-name>
+        <url-pattern>/prenotation/spett</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>Filter_register</filter-name>
         <filter-class>introwebprog.filters.Filter_register</filter-class>

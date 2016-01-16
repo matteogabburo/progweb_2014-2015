@@ -2,6 +2,7 @@ package introwebprog.servlets;
 
 import introwebprog.dao.MultisalaDAO;
 import introwebprog.models.Film;
+import introwebprog.models.Spettacolo;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 /**
  * Created by matteo on 11/01/16.
@@ -26,7 +28,7 @@ public class Serv_prenotation extends HttpServlet {
             int idfilm = tmp.intValue();
 
             MultisalaDAO dao = new MultisalaDAO();
-            Film film = dao.getFilmById(idfilm);
+            List<Spettacolo> spettacoli = dao.getSpettacoloById(idfilm);
 
 
             String res = "";
@@ -40,6 +42,17 @@ public class Serv_prenotation extends HttpServlet {
                     "    <script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js\"></script>\n" +
                     "</head>\n" +
                     "<body>";
+                    for(int i = 0; i < spettacoli.size(); i++)
+                    {
+                        res += spettacoli.get(i).getDataOra();
+                        res += "<div class=\"row\">" +
+                                "<a href=\"http://localhost:8080/CinemaMultisala_war_exploded/prenotation/spett?id="+spettacoli.get(i).getIdSpettacolo()+"\">" +
+                                "<button type=\"button\" class=\"btn btn-primary\">Prenota</button>"+
+                                "</a>" +
+                                "</div>"+
+                                "</br>";
+                    }
+
 
 
             request.getRequestDispatcher("/includes/header.jsp").include(request, response);
