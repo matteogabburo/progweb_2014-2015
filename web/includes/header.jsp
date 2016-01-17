@@ -84,6 +84,9 @@
                             <label for="pwd">your password :</label>
                             <input type="password" class="form-control" id="logpwd" name = "pwd">
                         </div>
+                        <div class="form-group">
+                            <a href="http://localhost:8080/CinemaMultisala_war_exploded/recpwd.jsp">Recupera password</a>
+                        </div>
 
                         <button type="reset" class="btn btn-default">Cancel</button>
                         <button type="submit" class="btn btn-default">Login</button>

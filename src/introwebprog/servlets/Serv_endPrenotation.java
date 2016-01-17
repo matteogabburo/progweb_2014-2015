@@ -4,7 +4,10 @@ import introwebprog.dao.MultisalaDAO;
 import introwebprog.models.Posto;
 import introwebprog.models.Spettacolo;
 import introwebprog.models.Utente;
+import introwebprog.utility.MailSender;
 
+import javax.mail.MessagingException;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -83,10 +86,18 @@ public class Serv_endPrenotation extends HttpServlet {
         else {
 
             MultisalaDAO dao = new MultisalaDAO();
-            if(dao.newPrenotation(String.valueOf(s.getAttribute("USER_MAIL")), posti, idSpett) == true)
+
+            String mailuser = String.valueOf(s.getAttribute("USER_MAIL"));
+            if(dao.newPrenotation(mailuser, posti, idSpett) == true)
             {
-            /*MailSender mail = new MailSender();
-            mail.sendMessage*/
+                MailSender mail = new MailSender();
+                try {
+                    mail.sendPrenotationMessage(mailuser, idSpett);
+                } catch (NamingException e) {
+                    e.printStackTrace();
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
                 res += s.getAttribute("USER_MAIL");
                 res += "<h2>Prenotazione completata, controlla la tua mail!</h2>";
             }

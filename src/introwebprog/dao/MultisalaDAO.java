@@ -166,6 +166,66 @@ public class MultisalaDAO {
         return s;
     }
 
+
+    /*public Film getUtenteByMail(int mail) {
+        String query = "select * from APP.FILM WHERE APP.UTENTE.EMAIL = '" + mail+ "'";
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        Film s = null;
+
+        try {
+            //work with data
+            if (rs != null) { //Retrieve by column name
+                while (rs.next()) {
+                    s = new Film();
+
+                    s.setIdFilm(rs.getInt("ID_FILM"));
+                    s.setTitolo(rs.getString("TITOLO"));
+                    s.setDurata(rs.getInt("DURATA"));
+                    s.setTrama(rs.getString("TRAMA"));
+                    s.setUriLocandina(rs.getString("URI_LOCANDINA"));
+                    s.setUrlTrailer(rs.getString("URL_TRAILER"));
+                    s.setIdGenere(rs.getInt("ID_GENERE"));
+                }
+            }
+            //close rs, conn, and stmt
+            if (rs != null)
+                rs.close();
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return s;
+    }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
     public List<Spettacolo> getSpettacoloByFilmId(int idfilm)
     {
         String query = "select * from APP.SPETTACOLO WHERE APP.SPETTACOLO.ID_FILM = " + idfilm;
@@ -800,6 +860,45 @@ public class MultisalaDAO {
             if (rs != null) { //Retrieve by column name
                 while (rs.next()) {
                     out = rs.getInt("ID_POSTO");
+                }
+            }
+            //close rs, conn, and stmt
+            if (rs != null)
+                rs.close();
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+
+    public String getPasswordByMail(String mail) {
+        String query = "select APP.UTENTE.PASSWORD AS PASSWORD from APP.UTENTE WHERE APP.UTENTE.EMAIL ='" + mail+"'";
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        String out = "";
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            //work with data
+            if (rs != null) { //Retrieve by column name
+                while (rs.next()) {
+                    out = rs.getString("PASSWORD");
                 }
             }
             //close rs, conn, and stmt

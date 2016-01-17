@@ -41,7 +41,16 @@
         <servlet-name>Serv_endPrenotation</servlet-name>
         <servlet-class>introwebprog.servlets.Serv_endPrenotation</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Serv_recpwd</servlet-name>
+        <servlet-class>introwebprog.servlets.Serv_recpwd</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>Serv_recpwd</servlet-name>
+        <url-pattern>/rec</url-pattern>
+    </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>Serv_endPrenotation</servlet-name>
         <url-pattern>/prenotation/spett/endprenotation</url-pattern>
