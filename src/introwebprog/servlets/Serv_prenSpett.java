@@ -124,11 +124,13 @@ public class Serv_prenSpett extends HttpServlet {
                     "                                       {" +
                     "                                           document.getElementById(text).src='"+this.imgPostoPrenotatoNormale+"';" +
                     "                                           prezzo += prezzomax;" +
+                    "                                           text += \"PRE\"+prezzomax+\"B\";" +
                 "                                           }" +
                     "                                   else" +
                     "                                      { " +
                     "                                           document.getElementById(text).src='"+this.imgPostoPrenotatoRidotto+"';" +
                     "                                           prezzo += prezzomin;" +
+                    "                                           text += \"PRE\"+prezzomin+\"B\";" +
                     "                                       }" +
                     "                                     output += text;" +
                     "                                     counterPosti++;" +
@@ -136,14 +138,14 @@ public class Serv_prenSpett extends HttpServlet {
                     "                          else if( document.getElementById(text).src == '"+this.imgPostoPrenotatoNormale+"')"+
                     "                          {" +
                     "                               document.getElementById(text).src='"+this.imgPostoLibero+"';" +
-                    "                                 output = output.replace(text, '');" +
+                    "                                 output = output.replace(text+\"PRE\"+prezzomax+\"B\", '');" +
                     "                                 counterPosti--;" +
                     "                                   prezzo -= prezzomax;" +
                     "                          } " +
                     "                          else if( document.getElementById(text).src == '"+this.imgPostoPrenotatoRidotto+"')"+
             "                                  {" +
                     "                               document.getElementById(text).src='"+this.imgPostoLibero+"';" +
-                    "                                 output = output.replace(text, '');" +
+                    "                                 output = output.replace(text+\"PRE\"+prezzomin+\"B\", '');" +
                     "                                 counterPosti--;" +
                     "                                   prezzo -= prezzomin;" +
                     "                           } "+

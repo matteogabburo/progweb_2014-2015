@@ -703,16 +703,14 @@ public class MultisalaDAO {
     }
 
 
-    public boolean newPrenotation(String user_mail, List<Posto> posti, int idSpett) {
+    public boolean newPrenotation(String user_mail, List<Posto> posti, int idSpett, List<Integer> prezzi) {
 
         int userId = this.getIdUserByMail(user_mail);
-        int idPrezzo = this.getPrezzoByidSpett(idSpett).getIdPrezzo();
         int idSala = this.getIdSalaByIdSpettacolo(idSpett);
 
 
         System.out.println("*******************************************************");
         System.out.println(userId);
-        System.out.println(idPrezzo);
         System.out.println(idSala);
         System.out.println("*******************************************************");
 
@@ -720,6 +718,12 @@ public class MultisalaDAO {
 
         for(int i = 0; i < posti.size(); i++) {
             int idPosto = this.newPosto(posti.get(i), idSala);
+            int idPrezzo;
+            if(prezzi.get(i) == 4)//TODO dinamizzarlo
+                idPrezzo = 2;
+            else
+                idPrezzo = 1;
+
             int idPrenotazione = this.getMaxidPrenotation() + 1;
 
             String query = "INSERT INTO APP.PRENOTAZIONE (ID_PRENOTAZIONE, ID_UTENTE, ID_SPETTACOLO, ID_PREZZO, ID_POSTO, DATA_ORA_OPERAZIONE)" +

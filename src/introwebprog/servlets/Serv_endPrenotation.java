@@ -43,7 +43,9 @@ public class Serv_endPrenotation extends HttpServlet {
         int i2 = param.indexOf("imy");
 
         List<Posto> posti = new ArrayList<>();
+        List<Integer> prezzi = new ArrayList<>();
         Posto posto;
+        Integer pre;
 
         while(param.contains("im"))
         {
@@ -56,11 +58,17 @@ public class Serv_endPrenotation extends HttpServlet {
             y = Integer.parseInt(param.substring(i1, i2));
             param = param.substring(i2);
 
+            i1 = param.indexOf("PRE")+3;
+            i2 = param.indexOf("B");
+            pre = Integer.parseInt(param.substring(i1, i2));
+            param = param.substring(i2);
+
 
             posto = new Posto();
             posto.setRiga(x);
             posto.setColonna(y);
             posti.add(posto);
+            prezzi.add(pre);
         }
 
         HttpSession s = null;
@@ -88,7 +96,7 @@ public class Serv_endPrenotation extends HttpServlet {
             MultisalaDAO dao = new MultisalaDAO();
 
             String mailuser = String.valueOf(s.getAttribute("USER_MAIL"));
-            if(dao.newPrenotation(mailuser, posti, idSpett) == true)
+            if(dao.newPrenotation(mailuser, posti, idSpett, prezzi) == true)
             {
                 MailSender mail = new MailSender();
                 try {
