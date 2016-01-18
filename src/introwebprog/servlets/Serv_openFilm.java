@@ -7,8 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * Created by matteo on 21/12/15.
@@ -20,6 +22,24 @@ public class Serv_openFilm extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String param = request.getParameter("id");
+
+        //responseWrapper importante per includere header ********************************************
+        HttpServletResponseWrapper responseWrapper = new HttpServletResponseWrapper(response) {
+            private final StringWriter sw = new StringWriter();
+
+            @Override
+            public PrintWriter getWriter() throws IOException {
+                return new PrintWriter(sw);
+            }
+
+            @Override
+            public String toString() {
+                return sw.toString();
+            }
+        };
+        request.getRequestDispatcher("/includes/header.jsp").include(request, responseWrapper);
+        //**************************************************************************************
+
 
         if(param != null)
         {
@@ -42,9 +62,14 @@ public class Serv_openFilm extends HttpServlet {
                     "</head>\n" +
                     "<body>";
 
+            res += responseWrapper.toString();
+
+            res+=   "<div class=\"row\">" ;
+
+            res +="<div class=\"col-md-1\"></div>" ;
+            res +="<div class=\"col-md-10\">" ;
 
 
-            request.getRequestDispatcher("/includes/header.jsp").include(request, response);
 
 
             res += "<img alt=\""+film.getTitolo()+"\" class=\"film-img img-responsive img-thumbnail\" src=\'"+film.getUriLocandina()+"\'/>";
@@ -52,6 +77,8 @@ public class Serv_openFilm extends HttpServlet {
 
             res += "\n<div class=\"film-title\"><h2>Titolo :</h2> \n"+film.getTitolo() + "</div>\n";
             res += "\n<div class=\"film-trama\"><h2>Trama :</h2> \n"+film.getTrama() + "</div>\n";
+
+            res += "\n<div class=\"film-trailer\"><h2>Trailer :</h2><iframe width=\"420\" height=\"345\" src=\""+film.getUrlTrailer()+"\"></iframe></div>";
 
 
             res += "\n" +
@@ -64,9 +91,13 @@ public class Serv_openFilm extends HttpServlet {
                     "</a>" +
                     "</div>"+
 
-                    "</footer>\n" +
-                    "\n" +
-                    "\n" +
+                    "</footer>\n";
+
+                    res +="</div>";
+                    res +="<div class=\"col-md-1\"></div>" ;
+
+
+                    res += "</div>" +
                     "</body>\n" +
                     "</html>";
 

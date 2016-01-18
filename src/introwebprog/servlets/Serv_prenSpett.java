@@ -9,8 +9,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 /**
@@ -29,6 +31,23 @@ public class Serv_prenSpett extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String param = request.getParameter("id");
+        //responseWrapper importante per includere header ********************************************
+        HttpServletResponseWrapper responseWrapper = new HttpServletResponseWrapper(response) {
+            private final StringWriter sw = new StringWriter();
+
+            @Override
+            public PrintWriter getWriter() throws IOException {
+                return new PrintWriter(sw);
+            }
+
+            @Override
+            public String toString() {
+                return sw.toString();
+            }
+        };
+        request.getRequestDispatcher("/includes/header.jsp").include(request, responseWrapper);
+        //**************************************************************************************
+
 
         if (param != null) {
             Integer tmp = Integer.parseInt(param);
@@ -50,6 +69,9 @@ public class Serv_prenSpett extends HttpServlet {
                     "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js\"></script>\n" +
                     "    <script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js\"></script>\n" +
                     "</head>";
+
+            res += "<body>";
+            res += responseWrapper.toString();
 
 
             //genero matrice posti
@@ -79,10 +101,6 @@ public class Serv_prenSpett extends HttpServlet {
                 res+="</tr>";
             }
             res += "</table>";
-
-
-            request.getRequestDispatcher("/includes/header.jsp").include(request, response);
-
 
             res += "\n" +
                     "<footer>\n" +

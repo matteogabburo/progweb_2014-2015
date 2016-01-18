@@ -4,12 +4,10 @@ import introwebprog.dao.MultisalaDAO;
 import introwebprog.models.*;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 /**
@@ -26,6 +24,22 @@ public class Serv_userSpettacolo extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //responseWrapper importante per includere header ********************************************
+        HttpServletResponseWrapper responseWrapper = new HttpServletResponseWrapper(response) {
+            private final StringWriter sw = new StringWriter();
+
+            @Override
+            public PrintWriter getWriter() throws IOException {
+                return new PrintWriter(sw);
+            }
+
+            @Override
+            public String toString() {
+                return sw.toString();
+            }
+        };
+        request.getRequestDispatcher("/includes/header.jsp").include(request, responseWrapper);
+        //**************************************************************************************
 
         int idSpett  = Integer.parseInt(request.getParameter("id"));
 
@@ -44,10 +58,9 @@ public class Serv_userSpettacolo extends HttpServlet {
                 "    <script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js\"></script>\n" +
                 "</head>";
 
+        res += "<body>";
 
-
-        request.getRequestDispatcher("/includes/header.jsp").include(request, response);
-
+        res += responseWrapper.toString();
 
         HttpSession s = null;
         s = request.getSession(false);

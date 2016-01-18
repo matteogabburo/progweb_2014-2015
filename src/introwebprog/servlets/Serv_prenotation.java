@@ -7,8 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 /**
@@ -22,6 +24,22 @@ public class Serv_prenotation extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String param = request.getParameter("id");
+        //responseWrapper importante per includere header ********************************************
+        HttpServletResponseWrapper responseWrapper = new HttpServletResponseWrapper(response) {
+            private final StringWriter sw = new StringWriter();
+
+            @Override
+            public PrintWriter getWriter() throws IOException {
+                return new PrintWriter(sw);
+            }
+
+            @Override
+            public String toString() {
+                return sw.toString();
+            }
+        };
+        request.getRequestDispatcher("/includes/header.jsp").include(request, responseWrapper);
+        //**************************************************************************************
 
 
         String res = "";
@@ -35,8 +53,7 @@ public class Serv_prenotation extends HttpServlet {
                 "    <script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js\"></script>\n" +
                 "</head>\n" +
                 "<body>";
-
-        request.getRequestDispatcher("/includes/header.jsp").include(request, response);
+        res += responseWrapper.toString();
 
 
             if (param != null) {

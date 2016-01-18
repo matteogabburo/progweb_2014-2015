@@ -20,24 +20,22 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
-<header>
     <jsp:include page="includes/header.jsp" />
-</header>
-
-<div class = "row">
-    <div class=\"col-md-2\"></div>
-    <!-- Locandine **************************************** -->
-    <div class=\"col-md-8\">
-        <jsp:include page="/filmPreviewTable" />
+<div class="col-md-1"></div>
+<div class="col-md-10">
+    <div class = "row">
+         <!-- Locandine **************************************** -->
+        <div class="col-md-12">
+            <jsp:include page="/filmPreviewTable" />
+        </div>
+        <!-- ************************************************** -->
     </div>
-    <!-- ************************************************** -->
-    <div class=\"col-md-2\"></div>
+
+    <footer>
+
+    </footer>
+
 </div>
-
-<footer>
-
-</footer>
-
-
+<div class="col-md-1"></div>
 </body>
 </html>
