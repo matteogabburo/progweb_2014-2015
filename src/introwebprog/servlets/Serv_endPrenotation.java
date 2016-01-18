@@ -97,23 +97,41 @@ public class Serv_endPrenotation extends HttpServlet {
             MultisalaDAO dao = new MultisalaDAO();
             List<Prenotazione> prenotazioni = new ArrayList<>();
 
-            String mailuser = String.valueOf(s.getAttribute("USER_MAIL"));
-            if(dao.newPrenotation(mailuser, posti, idSpett, prezzi, prenotazioni) == true)
+            //controllo se sono ancora disponibile i posti
+            List<Posto> postiCeck = dao.getPostiByIdSpett(idSpett);
+            boolean ceck = true;
+            for(int i = 0; i < postiCeck.size(); i++)
             {
-                MailSender mail = new MailSender();
-                try {
-                    mail.sendPrenotationMessage(mailuser, prenotazioni);
-                } catch (NamingException e) {
-                    e.printStackTrace();
-                } catch (MessagingException e) {
-                    e.printStackTrace();
+                if(ceck == true)
+                    for(int j = 0; j < posti.size(); j++)
+                    {
+                        if(posti.get(j).getRiga() == postiCeck.get(i).getRiga() && posti.get(j).getColonna() == postiCeck.get(i).getColonna())
+                        {
+                            ceck = false;
+                        }
+                    }
+            }
+
+            if(ceck == true) {
+                String mailuser = String.valueOf(s.getAttribute("USER_MAIL"));
+                if (dao.newPrenotation(mailuser, posti, idSpett, prezzi, prenotazioni) == true) {
+                    MailSender mail = new MailSender();
+                    try {
+                        mail.sendPrenotationMessage(mailuser, prenotazioni);
+                    } catch (NamingException e) {
+                        e.printStackTrace();
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                    res += s.getAttribute("USER_MAIL");
+                    res += "<h2>Prenotazione completata, controlla la tua mail!</h2>";
+                } else {
+                    res += "<h2>Errore registrazione prenotazione</h2>";
                 }
-                res += s.getAttribute("USER_MAIL");
-                res += "<h2>Prenotazione completata, controlla la tua mail!</h2>";
             }
             else
             {
-                res += "<h2>Errore registrazione prenotazione</h2>";
+                res += "<h2>Attenzione, i posti scelti non sono più disponibili</h2>";
             }
         }
         res +=  "</body>\n" +
