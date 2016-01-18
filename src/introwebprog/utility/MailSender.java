@@ -9,9 +9,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.sun.xml.internal.ws.api.config.management.policy.ManagementAssertion;
 import introwebprog.dao.MultisalaDAO;
-import introwebprog.models.Posto;
-import introwebprog.models.Spettacolo;
-import introwebprog.models.Utente;
+import introwebprog.models.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -41,14 +39,35 @@ public class MailSender
         sendMessage(to, subject, messaggio, null);
     }
 
-    public void sendPrenotationMessage(String u, int s) throws NamingException, MessagingException {
+    public void sendPrenotationMessage(String u, List<Prenotazione> s) throws NamingException, MessagingException {
         String to = u;
         //TODO aggiungere spettacolo e creazione pdf e qr code
 
         System.out.println(" ================================= "+to);
 
         String subject = "PRENOTAZIONE MULTISALA";
-        String messaggio = "Prenotazione effettuata con successo";
+        String messaggio = "";
+        String headermessaggio = "Ciao "+u+", La tua prenotazione è stata effettuata con successo!\n\n\n";
+        String bodymessaggio = "";
+
+        MultisalaDAO dao = new MultisalaDAO();
+
+        double prezzo = 0;
+        //gen messaggio
+        for(int i = 0; i < s.size(); i++)
+        {
+            Film film = dao.getFilmByIdSpettacolo(s.get(i).getIdSpettacolo());
+            Spettacolo spettacolo = dao.getSpettacoloByIdSpettacolo(s.get(i).getIdSpettacolo());
+            Posto posto = dao.getPostoByIdPosto(s.get(i).getIdPosto());
+            prezzo += dao.getPrezzoByIdPrezzo(s.get(i).getIdPrezzo()).getPrezzo();
+
+            bodymessaggio += "ID prenotazione : "+s.get(i).getIdPrenotazione()+"\n";
+            bodymessaggio += "Film : "+ film.getTitolo() +"\n";
+            bodymessaggio += "Data : "+ spettacolo.getDataOra() +"\n";
+        }
+        bodymessaggio += "\nCosto totale"+ prezzo +"€";
+
+        messaggio = headermessaggio + bodymessaggio;
 
         //gen qrcode
         GenQrCode genQr = new GenQrCode();
@@ -60,7 +79,7 @@ public class MailSender
 
         Image qr = null;
         try {
-            qr = Image.getInstance(genQr.genQR(messaggio).toByteArray());
+            qr = Image.getInstance(genQr.genQR(bodymessaggio).toByteArray());
         } catch (BadElementException e) {
             e.printStackTrace();
         } catch (IOException e) {

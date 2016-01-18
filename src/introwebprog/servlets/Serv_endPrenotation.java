@@ -2,6 +2,7 @@ package introwebprog.servlets;
 
 import introwebprog.dao.MultisalaDAO;
 import introwebprog.models.Posto;
+import introwebprog.models.Prenotazione;
 import introwebprog.models.Spettacolo;
 import introwebprog.models.Utente;
 import introwebprog.utility.MailSender;
@@ -94,13 +95,14 @@ public class Serv_endPrenotation extends HttpServlet {
         else {
 
             MultisalaDAO dao = new MultisalaDAO();
+            List<Prenotazione> prenotazioni = new ArrayList<>();
 
             String mailuser = String.valueOf(s.getAttribute("USER_MAIL"));
-            if(dao.newPrenotation(mailuser, posti, idSpett, prezzi) == true)
+            if(dao.newPrenotation(mailuser, posti, idSpett, prezzi, prenotazioni) == true)
             {
                 MailSender mail = new MailSender();
                 try {
-                    mail.sendPrenotationMessage(mailuser, idSpett);
+                    mail.sendPrenotationMessage(mailuser, prenotazioni);
                 } catch (NamingException e) {
                     e.printStackTrace();
                 } catch (MessagingException e) {
