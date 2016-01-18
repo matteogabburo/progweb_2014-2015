@@ -1,6 +1,6 @@
 <div class="container">
      <div class="row">
-        <h1>Cinema Multisala</h1>
+        <a href = "http://localhost:8080/CinemaMultisala_war_exploded"><h1>Cinema Multisala</h1></a>
 
 
          <%
@@ -14,7 +14,12 @@
              }
              else
              {
-                 out.println("<div class = \"user-profile-header\">"+session.getAttribute("USER_MAIL")+"</div>");
+                 out.println("<div class = \"user-profile-header\">");
+
+                 out.println("<a href=\"http://localhost:8080/CinemaMultisala_war_exploded/user\">"+session.getAttribute("USER_MAIL")+"</a>");
+
+
+                 out.println("</div>");
                  out.println("<form role=\"form\" action=\"http://localhost:8080/CinemaMultisala_war_exploded/logoff\" method=\"POST\">");
                  out.println("<button type=\"submit\" class=\"btn btn-primary\">logoff</button>");
                  out.println("</form>");

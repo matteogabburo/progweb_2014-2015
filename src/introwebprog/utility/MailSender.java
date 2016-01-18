@@ -6,6 +6,7 @@ package introwebprog.utility;
 
 import com.sun.xml.internal.ws.api.config.management.policy.ManagementAssertion;
 import introwebprog.dao.MultisalaDAO;
+import introwebprog.models.Posto;
 import introwebprog.models.Spettacolo;
 import introwebprog.models.Utente;
 
@@ -62,5 +63,15 @@ public class MailSender
         msg.setText(messagetext);
 
         Transport.send(msg);
+    }
+
+    public void sendCancellationMessage(String mailUser, Posto posto) throws MessagingException, NamingException {
+        String to= mailUser;
+        String subject = "CANCELLAZIONE PRENOTAZIONE";
+        MultisalaDAO dao = new MultisalaDAO();
+        String messaggio = "La tua prenotazione è stata cancellata, in particolare il posto collocato in "+
+                "riga : " +posto.getRiga() +" e colonna "+posto.getColonna();
+
+        sendMessage(to, subject, messaggio);
     }
 }

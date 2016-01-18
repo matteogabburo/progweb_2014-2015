@@ -100,7 +100,7 @@ public class MultisalaDAO {
                     s.setUrlTrailer(rs.getString("URL_TRAILER"));
                     s.setIdGenere(rs.getInt("ID_GENERE"));
 
-                     res.add(s);
+                    res.add(s);
                 }
 
             //close rs, conn, and stmt
@@ -167,8 +167,8 @@ public class MultisalaDAO {
     }
 
 
-    /*public Film getUtenteByMail(int mail) {
-        String query = "select * from APP.FILM WHERE APP.UTENTE.EMAIL = '" + mail+ "'";
+    public Utente getUtenteByMail(String mail) {
+        String query = "select * from APP.UTENTE WHERE APP.UTENTE.EMAIL = '" + mail+ "'";
 
         Connection conn = null;
         Statement stmt = null;
@@ -183,22 +183,21 @@ public class MultisalaDAO {
             e.printStackTrace();
         }
 
-        Film s = null;
+        Utente s = null;
 
         try {
             //work with data
             if (rs != null) { //Retrieve by column name
                 while (rs.next()) {
-                    s = new Film();
+                    s = new Utente();
 
-                    s.setIdFilm(rs.getInt("ID_FILM"));
-                    s.setTitolo(rs.getString("TITOLO"));
-                    s.setDurata(rs.getInt("DURATA"));
-                    s.setTrama(rs.getString("TRAMA"));
-                    s.setUriLocandina(rs.getString("URI_LOCANDINA"));
-                    s.setUrlTrailer(rs.getString("URL_TRAILER"));
-                    s.setIdGenere(rs.getInt("ID_GENERE"));
+                    s.setIdUtente(rs.getInt("ID_UTENTE"));
+                    s.setEmail(rs.getString("EMAIL"));
+                    s.setPassword(rs.getString("PASSWORD"));
+                    s.setCredito(rs.getDouble("CREDITO"));
+                    s.setIdRuolo(rs.getInt("ID_RUOLO"));
                 }
+
             }
             //close rs, conn, and stmt
             if (rs != null)
@@ -212,7 +211,7 @@ public class MultisalaDAO {
         }
 
         return s;
-    }*/
+    }
 
 
 
@@ -799,38 +798,38 @@ public class MultisalaDAO {
     private int newPosto(Posto posto, int idSala) {
 
 
-            int idPosto = this.getMaxIdPosto() + 1;
+        int idPosto = this.getMaxIdPosto() + 1;
 
 
-            String query = "INSERT INTO APP.POSTO (ID_POSTO, ID_SALA, RIGA, COLONNA, ESISTE)" +
-                    " VALUES ("+idPosto+","+ idSala+","+ posto.getRiga()+"," +posto.getColonna()+", 1)";
+        String query = "INSERT INTO APP.POSTO (ID_POSTO, ID_SALA, RIGA, COLONNA, ESISTE)" +
+                " VALUES ("+idPosto+","+ idSala+","+ posto.getRiga()+"," +posto.getColonna()+", 1)";
 
-            Connection conn = null;
-            PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement stmt = null;
 
-            int rs = 0;
-            boolean s = false;
+        int rs = 0;
+        boolean s = false;
 
-            try {
-                DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
-                conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
-                stmt = conn.prepareStatement(query);
-                rs = stmt.executeUpdate();
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.prepareStatement(query);
+            rs = stmt.executeUpdate();
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
 
-            try {
-                if (stmt != null)
-                    stmt.close();
-                if (conn != null)
-                    conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        try {
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
         return idPosto;
@@ -913,5 +912,288 @@ public class MultisalaDAO {
         }
 
         return out;
+    }
+
+    public boolean isAdmin(Utente u) {
+        if(u.getIdRuolo() == 1)
+            return true;
+        else
+            return false;
+    }
+
+    public List<Spettacolo> getAllSpettacoli() {
+        String query = "select * from APP.SPETTACOLO";
+
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            //work with data
+            ArrayList<Spettacolo> res = null;
+            while (rs.next()) {
+                //Retrieve by column name
+                Spettacolo s = new Spettacolo();
+
+                s.setIdFilm(rs.getInt("ID_FILM"));
+                s.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+                s.setDataOra(rs.getTimestamp("DATA_ORA"));
+                s.setIdSala(rs.getInt("ID_SALA"));
+
+                res.add(s);
+            }
+
+            //close rs
+            rs.close();
+
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<Film> getAllFilm() {
+        String query = "select * from APP.FILM";
+
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            //work with data
+            ArrayList<Film> res = null;
+            while (rs.next()) {
+                //Retrieve by column name
+                Film s = new Film();
+
+                s.setIdFilm(rs.getInt("ID_FILM"));
+                s.setTitolo(rs.getString("TITOLO"));
+                s.setIdGenere(rs.getInt("ID_GENERE"));
+                s.setUrlTrailer(rs.getString("URL_TRAILER"));
+                s.setDurata(rs.getInt("DURATA"));
+                s.setTrama(rs.getString("TRAMA"));
+                s.setUriLocandina(rs.getString("URL_LOCANDINA"));
+
+                res.add(s);
+            }
+
+            //close rs
+            rs.close();
+
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public double getGuadagnoPerFilm(List<Spettacolo> idSpettacoli) {
+
+        double res = 0.0;
+
+        for (int i = 0; i < idSpettacoli.size(); i++) {
+            String query = "select ID_PREZZO from PRENOTAZIONE where PRENOTAZIONE.ID_SPETTACOLO=" + idSpettacoli.get(i).getIdFilm();
+
+
+            Connection conn = null;
+            Statement stmt = null;
+            ResultSet rs = null;
+
+            try {
+                DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+                conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            try {
+
+
+                //TODO prezzi dinamici
+
+                int prezzo;
+                while (rs.next()) {
+                    if (rs.getInt("ID_PREZZO") == 1)
+                        prezzo = 7;//completo
+                    else
+                        prezzo = 4;//ridotto
+
+                    res += 1 * prezzo;
+                }
+
+                //close rs
+                rs.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        return res;
+    }
+
+    public Double getGuadagnoPerSpettacolo(int idSpett) {
+
+        double res = 0.0;
+
+        String query = "select ID_PREZZO from PRENOTAZIONE where PRENOTAZIONE.ID_SPETTACOLO=" + idSpett;
+
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+
+
+            //TODO prezzi dinamici
+
+            int prezzo;
+            while (rs.next()) {
+                if (rs.getInt("ID_PREZZO") == 1)
+                    prezzo = 7;//completo
+                else
+                    prezzo = 4;//ridotto
+
+                res += 1 * prezzo;
+            }
+
+            //close rs
+            rs.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+
+
+        }
+        return res;
+    }
+
+    public String getMailFromPosto(Posto posto) {
+        String query = "select APP.UTENTE.EMAIL from APP.UTENTE where APP.UTENTE.ID_UTENTE = (select APP.PRENOTAZIONE.ID_UTENTE from APP.PRENOTAZIONE where APP.PRENOTAZIONE.ID_POSTO = "+posto.getIdPosto()+")";
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            //work with data
+            String res = null;
+            while (rs.next()) {
+                res = rs.getString("EMAIL");
+            }
+
+            //close rs
+            rs.close();
+
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return null;
+
+    }
+
+    public boolean cancellazionePrenotazione(Posto posto)
+    {
+        String query = "DELETE FROM APP.PRENOTAZIONE WHERE APP.PRENOTAZIONE.ID_POSTO = "+posto.getIdPosto();
+        String query2 = "DELETE FROM APP.POSTO WHERE APP.POSTO.ID_POSTO = "+posto.getIdPosto();
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        int rs = 0;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.prepareStatement(query);
+            rs = stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (rs <= 0)
+            return false;
+
+        try {
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.prepareStatement(query2);
+            rs = stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (rs <= 0)
+            return false;
+
+        try {
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return true;
     }
 }

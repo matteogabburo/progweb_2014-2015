@@ -45,10 +45,35 @@
         <servlet-name>Serv_recpwd</servlet-name>
         <servlet-class>introwebprog.servlets.Serv_recpwd</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Serv_user</servlet-name>
+        <servlet-class>introwebprog.servlets.Serv_user</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Serv_userSpettacolo</servlet-name>
+        <servlet-class>introwebprog.servlets.Serv_userSpettacolo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Serv_cancPrenotation</servlet-name>
+        <servlet-class>introwebprog.servlets.Serv_cancPrenotation</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>Serv_cancPrenotation</servlet-name>
+        <url-pattern>/canc</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Serv_user</servlet-name>
+        <url-pattern>/user</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Serv_recpwd</servlet-name>
         <url-pattern>/rec</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>Serv_userSpettacolo</servlet-name>
+        <url-pattern>/user/spettacolo</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>

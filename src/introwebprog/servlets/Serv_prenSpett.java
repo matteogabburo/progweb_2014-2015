@@ -20,7 +20,8 @@ public class Serv_prenSpett extends HttpServlet {
 
     private String imgPostoLibero = "https://image.freepik.com/icone-gratis/poltrona-di-lusso_318-31059.png";
     private String imgPostoOccupato = "http://www.goalcollegeathlete.com/wp-content/uploads/2013/10/general-icons-03.png";
-    private String imgPostoPrenotato = "http://www.clipartbest.com/cliparts/yco/e8n/ycoe8nrMi.png";
+    private String imgPostoPrenotatoNormale = "http://www.clipartbest.com/cliparts/yco/e8n/ycoe8nrMi.png";
+    private String imgPostoPrenotatoRidotto = "https://freightbooksblog.files.wordpress.com/2014/01/8-helvetica.jpg";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -59,7 +60,7 @@ public class Serv_prenSpett extends HttpServlet {
                 for(int j = 0; j < postiY; j++)
                     sala[i][j] = this.imgPostoLibero;
 
-           //riempio tabella con posti occuati
+            //riempio tabella con posti occuati
             for (int i = 0; i < posti.size(); i++) {
                 sala[posti.get(i).getRiga()][posti.get(i).getColonna()] = this.imgPostoOccupato;
             }
@@ -82,8 +83,16 @@ public class Serv_prenSpett extends HttpServlet {
 
             request.getRequestDispatcher("/includes/header.jsp").include(request, response);
 
+
             res += "\n" +
                     "<footer>\n" +
+
+                    "<form>\n" +
+                    "<h2>Tipo di biglietto</h2>" +
+                    " Normale <input type=\"radio\" name=\"tipobiglietto\" id = \"normale\" checked/></br>\n" +
+                    " Ridotto <input type=\"radio\" name=\"tipobiglietto\" id = \"ridotto\"/>\n" +
+                    "</form> "+
+
 
                     "<div>Totale costo biglietto/i : <div id=\"displayPrezzo\">0</div> €</div>"+
 
@@ -94,33 +103,55 @@ public class Serv_prenSpett extends HttpServlet {
                     "</form>"+
 
 
-
-
-
-
                     "</footer>\n" +
+
+                    "<script type=\"text/javascript\" src=\"http://code.jquery.com/jquery-latest.min.js\"></script>\n" +
 
                     "<script type=\"text/javascript\" src=\"http://code.jquery.com/jquery-latest.min.js\"></script>\n" +
                     "                    <script>" +
                     "                    var output = \"S"+idSpett+"P\";" +
                     "                    var counterPosti = 0;" +
+                    "                    var prezzo = 0;"+
+                    "                     var prezzomax = "+dao.getPrezzoByIdPrezzo(1).getPrezzo()+";"+
+                    "                     var prezzomin = "+dao.getPrezzoByIdPrezzo(2).getPrezzo()+";"+
                     "                    $(document).ready(function() {\n" +
                     "                            $('.descr').click(function(){" +
                     "                               var text = 'im'+$(this).attr(\"id\");" +
 
                     "                          if( document.getElementById(text).src == '"+this.imgPostoLibero+"')"+
-                    "                               {document.getElementById(text).src='"+this.imgPostoPrenotato+"';" +
-                    "                                output += text;" +
-                    "                                counterPosti++;} " +
-                    "                          else if( document.getElementById(text).src == '"+this.imgPostoPrenotato+"')"+
-                    "                                {document.getElementById(text).src='"+this.imgPostoLibero+"';" +
+                    "                               {" +
+                    "                                   if(document.getElementById(\"normale\").checked == true)" +
+                    "                                       {" +
+                    "                                           document.getElementById(text).src='"+this.imgPostoPrenotatoNormale+"';" +
+                    "                                           prezzo += prezzomax;" +
+                "                                           }" +
+                    "                                   else" +
+                    "                                      { " +
+                    "                                           document.getElementById(text).src='"+this.imgPostoPrenotatoRidotto+"';" +
+                    "                                           prezzo += prezzomin;" +
+                    "                                       }" +
+                    "                                     output += text;" +
+                    "                                     counterPosti++;" +
+                    "                               } " +
+                    "                          else if( document.getElementById(text).src == '"+this.imgPostoPrenotatoNormale+"')"+
+                    "                          {" +
+                    "                               document.getElementById(text).src='"+this.imgPostoLibero+"';" +
                     "                                 output = output.replace(text, '');" +
-                    "                                 counterPosti--;} " +
+                    "                                 counterPosti--;" +
+                    "                                   prezzo -= prezzomax;" +
+                    "                          } " +
+                    "                          else if( document.getElementById(text).src == '"+this.imgPostoPrenotatoRidotto+"')"+
+            "                                  {" +
+                    "                               document.getElementById(text).src='"+this.imgPostoLibero+"';" +
+                    "                                 output = output.replace(text, '');" +
+                    "                                 counterPosti--;" +
+                    "                                   prezzo -= prezzomin;" +
+                    "                           } "+
                     "                          else"+
                     "                                { alert('Posto occupato');}" +
                     "                          console.log(output);" +
 
-                    "                          $(\"div#displayPrezzo\").html(counterPosti*"+prezzo.getPrezzo()+");" +
+                    "                          $(\"div#displayPrezzo\").html(prezzo);" +
                     "                          document.getElementById('btnPrenotazione').value = output;"+
 
                     "                            });" +
