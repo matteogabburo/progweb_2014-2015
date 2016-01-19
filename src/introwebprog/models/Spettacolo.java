@@ -5,6 +5,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 /**
  * Created by matteo on 19/12/15.
@@ -28,14 +33,19 @@ public class Spettacolo {
 
     public String getDataOraToString()
     {
-        String res = "";
-
+        /*
         res += "Giorno : "+this.dataOra.getDay();
         res += "/"+this.dataOra.getMonth();
         res += "/"+this.dataOra.getYear();
 
         res += " alle "+ this.dataOra.getHours();
         res += ":"+ this.dataOra.getMinutes();
+        */
+
+        Date date = new Date(this.dataOra.getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+1"));
+        String res = sdf.format(date);
 
         return res;
     }

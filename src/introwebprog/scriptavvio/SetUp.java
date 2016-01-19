@@ -71,7 +71,7 @@ public class SetUp {
         Date d = new Date();
 
         String query2 = "INSERT INTO APP.PRENOTAZIONE (ID_PRENOTAZIONE, ID_UTENTE, ID_SPETTACOLO, ID_PREZZO, ID_POSTO, DATA_ORA_OPERAZIONE) " +
-                "VALUES ("+idPosto+", "+idSala+", "+idSpettacolo+", "+String.valueOf(1 + rnd.nextInt(2))+", "+idPosto+", '"+new Timestamp(d.getTime())+"')";
+                "VALUES ("+idPosto+", "+String.valueOf(1 + rnd.nextInt(10))+", "+idSpettacolo+", "+String.valueOf(1 + rnd.nextInt(2))+", "+idPosto+", '"+new Timestamp(d.getTime())+"')";
 
         System.out.println(query1);
         System.out.println(query2);
@@ -99,7 +99,7 @@ public class SetUp {
             for(int j = 0; j < SetUp.NSPETTACOLI; j++)
             {
                 idSala = idSpettacolo % (SetUp.MAXSALA)+1;
-                dao.sendInsertQuery(this.createSpettacolo(idSpettacolo, i, x, idSala));
+                dao.sendInsertQuery(this.createSpettacolo(idSpettacolo, i, val, idSala));
                 System.out.println("Add spettacolo("+idSpettacolo+", "+i+", "+val+","+idSala+")");
 
                 Random random = new Random();
@@ -109,7 +109,7 @@ public class SetUp {
                     idPosto++;
                 }
 
-                val= x*idSpettacolo;
+                val= val + x;
                 idSpettacolo++;
             }
             val = x;
@@ -119,8 +119,8 @@ public class SetUp {
     public String createSpettacolo(int id, int idFilm, int x, int idSala)
     {
         Date d = new Date();
-        Timestamp t = new Timestamp(d.getTime());
-        t.setMinutes(t.getMinutes() + x);
+
+        Timestamp t = new Timestamp(d.getTime() + x*60*1000);
 
         String query = "INSERT INTO APP.SPETTACOLO (ID_SPETTACOLO, ID_FILM, DATA_ORA, ID_SALA) " +
                 "VALUES ("+id+","+idFilm+", '"+t.toString()+"',"+idSala+")";
