@@ -1,5 +1,6 @@
 package introwebprog.dao;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import introwebprog.models.*;
 
 import java.sql.*;
@@ -1159,6 +1160,8 @@ public class MultisalaDAO {
     public String getMailFromPosto(Posto posto) {
         String query = "select APP.UTENTE.EMAIL from APP.UTENTE where APP.UTENTE.ID_UTENTE = (select APP.PRENOTAZIONE.ID_UTENTE from APP.PRENOTAZIONE where APP.PRENOTAZIONE.ID_POSTO = "+posto.getIdPosto()+")";
 
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55" + query);
+
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -1200,6 +1203,8 @@ public class MultisalaDAO {
         Connection conn = null;
         PreparedStatement stmt = null;
 
+        System.out.println("::::::::::::::::::::::::::: 1");
+
         int rs = 0;
 
         try {
@@ -1212,8 +1217,11 @@ public class MultisalaDAO {
             e.printStackTrace();
         }
 
-        if (rs <= 0)
-            return false;
+        /*if (rs <= 0)
+            return false;*/
+
+
+        System.out.println("::::::::::::::::::::::::::: 2");
 
         try {
             if (stmt != null)
@@ -1233,9 +1241,11 @@ public class MultisalaDAO {
             e.printStackTrace();
         }
 
-        if (rs <= 0)
-            return false;
+        /*if (rs <= 0)
+            return false;*/
 
+
+        System.out.println("::::::::::::::::::::::::::: 3");
         try {
             if (stmt != null)
                 stmt.close();
@@ -1383,5 +1393,104 @@ public class MultisalaDAO {
         }
 
         return s;
+    }
+
+    public Posto getPostoByRigaColonnaIdSpettacolo(Integer riga, Integer colonna, int idSpett) {
+
+
+        String query1 = "select APP.PRENOTAZIONE.ID_POSTO from APP.PRENOTAZIONE WHERE APP.PRENOTAZIONE.ID_SPETTACOLO = "+idSpett;
+
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& "+query1 );
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        List<Integer> idPosti = new ArrayList<>();
+
+        try {
+            //work with data
+            if (rs != null) { //Retrieve by column name
+                while (rs.next()) {
+                    idPosti.add(rs.getInt("ID_POSTO"));
+                }
+            }
+            //close rs, conn, and stmt
+            if (rs != null)
+                rs.close();
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String query = "select * from APP.POSTO WHERE APP.POSTO.RIGA = "+riga+" AND APP.POSTO.COLONNA = "+colonna;
+
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& "+query );
+
+        conn = null;
+        stmt = null;
+        rs = null;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        Posto s = null;
+        List<Posto> posti = new ArrayList<>();
+
+        try {
+            //work with data
+            if (rs != null) { //Retrieve by column name
+                while (rs.next()) {
+                    s = new Posto();
+
+                    s.setIdPosto(rs.getInt("ID_POSTO"));
+                    s.setColonna(rs.getInt("COLONNA"));
+                    s.setRiga(rs.getInt("RIGA"));
+                    s.setEsiste(rs.getBoolean("ESISTE"));
+                    s.setIdSala(rs.getInt("ID_SALA"));
+
+                    posti.add(s);
+                }
+            }
+            //close rs, conn, and stmt
+            if (rs != null)
+                rs.close();
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        for(int i = 0; i < posti.size(); i++)
+        {
+            for(int k = 0; k < idPosti.size(); k++)
+            {
+                if(posti.get(i).getIdPosto() == idPosti.get(k))
+                    return posti.get(i);
+            }
+        }
+
+        return null;
     }
 }

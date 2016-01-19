@@ -56,6 +56,10 @@ public class Serv_user extends HttpServlet {
         res +="<body>";
         res += responseWrapper.toString();
 
+        res +="<div class=\"col-md-1 sidebar\"></div>" ;
+        res +="<div class=\"col-md-10\">" ;
+
+
         //ceck ruolo utente, se admin fai roba admin altrimenti prenotazioni effettuate da utente normale
 
         //cose per admin :
@@ -80,26 +84,26 @@ public class Serv_user extends HttpServlet {
 
             List<Film> films = dao.allFilms();
 
-            body += "<div class=\"row\">";
-            body += "<div class = \'col-md-3\'>";
+            body += "<div class=\"row adminrow\">";
+            body += "<div class = \'col-md-4\'>";
             body += "<h3>Film</h3>";
             body += "</div>";
-            body += "<div class = \'col-md-3\'>";
+            body += "<div class = \'col-md-4\'>";
             body += "<h3>Spettacoli</h3>";
             body += "</div>";
-            body += "<div class = \'col-md-2\'>";
+            body += "<div class = \'col-md-4\'>";
             body += "<h3>Guadagno</h3>";
             body += "</div>";
             body += "</div>";
 
             for(int i = 0; i < films.size(); i++) {
-                body += "<div class=\"row\">";
-                body += "<div class = \'col-md-3\'>";
+                body += "<div class=\"row adminrow\">";
+                body += "<div class = \'col-md-4\'>";
                 body += films.get(i).getTitolo();
                 body += "</div>";
 
                 //spettacoli per film
-                body += "<div class = \'col-md-3\'>";
+                body += "<div class = \'col-md-4\'>";
                 List<Spettacolo> spettacoli = dao.getSpettacoloByFilmId(films.get(i).getIdFilm());
                 for(int j = 0; j < spettacoli.size(); j++ )
                 {
@@ -111,13 +115,12 @@ public class Serv_user extends HttpServlet {
                 body += "</div>";
 
                 //guadagno totale per film
-                body += "<div class = \'col-md-2\'>";
+                body += "<div class = \'col-md-4\'>";
                 body += dao.getGuadagnoPerFilm(dao.getSpettacoloByFilmId(films.get(i).getIdFilm())) +" €";
                 body += "</div>";
 
                 body += "</div>";
             }
-
         }
         else
         {
@@ -129,9 +132,13 @@ public class Serv_user extends HttpServlet {
         res += "\n" +
                 "<footer>\n" +
 
-                "</footer>\n" +
+                "</footer>\n" ;
 
-                "</body>\n" +
+        res +="</div>" ;
+        res +="<div class=\"col-md-1 sidebar\"></div>" ;
+
+
+        res +="</body>\n" +
                 "</html>";
 
 

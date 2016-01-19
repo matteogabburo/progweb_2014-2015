@@ -1,33 +1,38 @@
 <header>
     <div class="container">
-        <div class="row">
+        <!--<div class="row nav titleandlogin">
+            <a href = "http://localhost:8080/CinemaMultisala_war_exploded"><h1>Cinema Multisala</h1></a>-->
+        <nav class="navbar navbar-default navbar-fixed-top titleandlogin">
             <a href = "http://localhost:8080/CinemaMultisala_war_exploded"><h1>Cinema Multisala</h1></a>
+            <a href = "http://localhost:8080/CinemaMultisala_war_exploded"><button type="button" class="btn left navbar-btn">Home</button></a>
+            <a href = "http://localhost:8080/CinemaMultisala_war_exploded/chisiamo.jsp"><button type="button" class="btn left navbar-btn">Chi siamo</button></a>
+            <a href = "http://localhost:8080/CinemaMultisala_war_exploded/informativaprezzi.jsp"><button type="button" class="btn left navbar-btn">Informativa prezzi</button></a>
+
             <%
                 HttpSession s = null;
                 s = request.getSession(false);
 
                 if(s.getAttribute("USER_MAIL") == null)
                 {
-                    out.println("<button type=\"button\" class=\"btn btn-primary\"  data-toggle=\"modal\" data-target=\"#modal-head-login\">login</button>");
-                    out.println("<button type=\"button\" class=\"btn btn-primary\"  data-toggle=\"modal\" data-target=\"#modal-head-register\">register</button>");
+                    out.println("<button type=\"button\" class=\"btn right navbar-btn\"  data-toggle=\"modal\" data-target=\"#modal-head-login\">login</button>");
+                    out.println("<button type=\"button\" class=\"btn right navbar-btn\"  data-toggle=\"modal\" data-target=\"#modal-head-register\">register</button>");
                 }
                 else
                 {
                     out.println("<div class = \"user-profile-header\">");
 
-                    out.println("<a href=\"http://localhost:8080/CinemaMultisala_war_exploded/user\">"+session.getAttribute("USER_MAIL")+"</a>");
-
-
                     out.println("</div>");
                     out.println("<form role=\"form\" action=\"http://localhost:8080/CinemaMultisala_war_exploded/logoff\" method=\"POST\">");
-                    out.println("<button type=\"submit\" class=\"btn btn-primary\">logoff</button>");
+                    out.println("<button type=\"submit\" class=\"btn right navbar-btn\">logoff</button>");
                     out.println("</form>");
+
+                    out.println("<a class=\"userpreview\"href=\"http://localhost:8080/CinemaMultisala_war_exploded/user\">"+session.getAttribute("USER_MAIL")+"</a>");
                 }
             %>
+        </nav>
 
 
-
-        </div>
+        <!--</div>-->
 
         <!-- Modal -->
         <div class="modal fade" id="modal-head-register" role="dialog">

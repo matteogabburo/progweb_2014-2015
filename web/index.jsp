@@ -21,7 +21,7 @@
 </head>
 <body>
     <jsp:include page="includes/header.jsp" />
-<div class="col-md-1"></div>
+<div class="col-md-1 sidebar"></div>
 <div class="col-md-10">
     <div class = "row">
          <!-- Locandine **************************************** -->
@@ -36,6 +36,6 @@
     </footer>
 
 </div>
-<div class="col-md-1"></div>
+<div class="col-md-1 sidebar"></div>
 </body>
 </html>

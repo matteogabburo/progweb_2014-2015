@@ -35,108 +35,128 @@ public class Serv_endPrenotation extends HttpServlet {
         //Parsing param
 
         //da S a P c'è id Spettacolo
-        int idSpett = Integer.parseInt(param.substring(1, param.indexOf("P")));
-
-        //da P ci sono i posti con coordinate x e y
-        int x;
-        int y;
-        int i1 = param.indexOf("imx");
-        int i2 = param.indexOf("imy");
-
-        List<Posto> posti = new ArrayList<>();
-        List<Integer> prezzi = new ArrayList<>();
-        Posto posto;
-        Integer pre;
-
-        while(param.contains("im"))
+        String tmp = null;
+        if(param.length() == 0)
         {
-            i1 = param.indexOf("imx")+3;
-            i2 = param.indexOf("y");
-            x = Integer.parseInt(param.substring(i1, i2));
-            param = param.substring(i2);
-            i1 = param.indexOf("y")+1;
-            i2 = param.indexOf("A");
-            y = Integer.parseInt(param.substring(i1, i2));
-            param = param.substring(i2);
-
-            i1 = param.indexOf("PRE")+3;
-            i2 = param.indexOf("B");
-            pre = Integer.parseInt(param.substring(i1, i2));
-            param = param.substring(i2);
-
-
-            posto = new Posto();
-            posto.setRiga(x);
-            posto.setColonna(y);
-            posti.add(posto);
-            prezzi.add(pre);
-        }
-
-        HttpSession s = null;
-
-        s = request.getSession(false);
-
-
-        res += "<html>\n" +
-                "<head>\n" +
-                "    <title>Cinema Multisala</title>\n" +
-                "    <link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css\">\n" +
-                "    <link href=\"CSS/mycss.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
-                "\n" +
-                "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js\"></script>\n" +
-                "    <script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js\"></script>\n" +
-                "</head>" +
-                "<body>";
-
-        if(s.getAttribute("USER_MAIL") == null)
-        {
-            res += "<h2>Attenzione per procedere con l'acquisto devi effettuare il login Effettua il login</h2>";
+            res += "<html>\n" +
+                    "<head>\n" +
+                    "    <title>Cinema Multisala</title>\n" +
+                    "    <link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css\">\n" +
+                    "    <link href=\"CSS/mycss.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
+                    "\n" +
+                    "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js\"></script>\n" +
+                    "    <script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js\"></script>\n" +
+                    "</head>" +
+                    "<body>";
+            res += "<div class=\"text-center\"><h2>Attenzione nessun posto inserito</h2>" +
+                    "<a href=\"http://localhost:8080/CinemaMultisala_war_exploded\"><button class=\"btn btn-primary\" type=\"button\">Home</button></a></div>";
+            res += "</body>\n" +
+                    "</html>";
         }
         else {
+            int idSpett = Integer.parseInt(param.substring(1, param.indexOf("P")));
 
-            MultisalaDAO dao = new MultisalaDAO();
-            List<Prenotazione> prenotazioni = new ArrayList<>();
+            HttpSession s = null;
 
-            //controllo se sono ancora disponibile i posti
-            List<Posto> postiCeck = dao.getPostiByIdSpett(idSpett);
-            boolean ceck = true;
-            for(int i = 0; i < postiCeck.size(); i++)
-            {
-                if(ceck == true)
-                    for(int j = 0; j < posti.size(); j++)
-                    {
-                        if(posti.get(j).getRiga() == postiCeck.get(i).getRiga() && posti.get(j).getColonna() == postiCeck.get(i).getColonna())
-                        {
-                            ceck = false;
-                        }
-                    }
-            }
+            s = request.getSession(false);
 
-            if(ceck == true) {
-                String mailuser = String.valueOf(s.getAttribute("USER_MAIL"));
-                if (dao.newPrenotation(mailuser, posti, idSpett, prezzi, prenotazioni) == true) {
-                    MailSender mail = new MailSender();
-                    try {
-                        mail.sendPrenotationMessage(mailuser, prenotazioni);
-                    } catch (NamingException e) {
-                        e.printStackTrace();
-                    } catch (MessagingException e) {
-                        e.printStackTrace();
-                    }
-                    res += s.getAttribute("USER_MAIL");
-                    res += "<h2>Prenotazione completata, controlla la tua mail!</h2>";
+
+            res += "<html>\n" +
+                    "<head>\n" +
+                    "    <title>Cinema Multisala</title>\n" +
+                    "    <link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css\">\n" +
+                    "    <link href=\"CSS/mycss.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
+                    "\n" +
+                    "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js\"></script>\n" +
+                    "    <script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js\"></script>\n" +
+                    "</head>" +
+                    "<body>";
+
+            if (s.getAttribute("USER_MAIL") == null) {
+                res += "<div class=\"text-center\"><h2>Attenzione per procedere con l'acquisto devi effettuare il login Effettua il login</h2>" +
+                        "<a href=\"http://localhost:8080/CinemaMultisala_war_exploded\"><button class=\"btn btn-primary\" type=\"button\">Home</button></a></div>";
+            } else {
+                if (param.matches("S[0-9]*P")) {
+                    res += "<div class=\"text-center\"><h2>Attenzione nessun posto inserito</h2>" +
+                            "<a href=\"http://localhost:8080/CinemaMultisala_war_exploded\"><button class=\"btn btn-primary\" type=\"button\">Home</button></a></div>";
                 } else {
-                    res += "<h2>Errore registrazione prenotazione</h2>";
+
+                    //da P ci sono i posti con coordinate x e y
+                    int x;
+                    int y;
+                    int i1 = param.indexOf("imx");
+                    int i2 = param.indexOf("imy");
+
+                    List<Posto> posti = new ArrayList<>();
+                    List<Integer> prezzi = new ArrayList<>();
+                    Posto posto;
+                    Integer pre;
+
+                    while (param.contains("im")) {
+                        i1 = param.indexOf("imx") + 3;
+                        i2 = param.indexOf("y");
+                        x = Integer.parseInt(param.substring(i1, i2));
+                        param = param.substring(i2);
+                        i1 = param.indexOf("y") + 1;
+                        i2 = param.indexOf("A");
+                        y = Integer.parseInt(param.substring(i1, i2));
+                        param = param.substring(i2);
+
+                        i1 = param.indexOf("PRE") + 3;
+                        i2 = param.indexOf("B");
+                        pre = Integer.parseInt(param.substring(i1, i2));
+                        param = param.substring(i2);
+
+
+                        posto = new Posto();
+                        posto.setRiga(x);
+                        posto.setColonna(y);
+                        posti.add(posto);
+                        prezzi.add(pre);
+                    }
+
+                    MultisalaDAO dao = new MultisalaDAO();
+                    List<Prenotazione> prenotazioni = new ArrayList<>();
+
+                    //controllo se sono ancora disponibile i posti
+                    List<Posto> postiCeck = dao.getPostiByIdSpett(idSpett);
+                    boolean ceck = true;
+                    for (int i = 0; i < postiCeck.size(); i++) {
+                        if (ceck == true)
+                            for (int j = 0; j < posti.size(); j++) {
+                                if (posti.get(j).getRiga() == postiCeck.get(i).getRiga() && posti.get(j).getColonna() == postiCeck.get(i).getColonna()) {
+                                    ceck = false;
+                                }
+                            }
+                    }
+
+                    if (ceck == true) {
+                        String mailuser = String.valueOf(s.getAttribute("USER_MAIL"));
+                        if (dao.newPrenotation(mailuser, posti, idSpett, prezzi, prenotazioni) == true) {
+                            MailSender mail = new MailSender();
+                            try {
+                                mail.sendPrenotationMessage(mailuser, prenotazioni);
+                            } catch (NamingException e) {
+                                e.printStackTrace();
+                            } catch (MessagingException e) {
+                                e.printStackTrace();
+                            }
+                            res += s.getAttribute("USER_MAIL");
+                            res += "<div class=\"text-center\"><h2>Prenotazione completata, controlla la tua mail!</h2>" +
+                                    "<a href=\"http://localhost:8080/CinemaMultisala_war_exploded\"><button class=\"btn btn-primary\" type=\"button\">Home</button></a></div>";
+                        } else {
+                            res += "<div class=\"text-center\"><h2>Errore registrazione prenotazione</h2>" +
+                                    "<a href=\"http://localhost:8080/CinemaMultisala_war_exploded\"><button class=\"btn btn-primary\" type=\"button\">Home</button></a></div>";
+                        }
+                    } else {
+                        res += "<div class=\"text-center\"><h2>Attenzione i posti scelti non sono più disponibili</h2>" +
+                                "<a href=\"http://localhost:8080/CinemaMultisala_war_exploded\"><button class=\"btn btn-primary\" type=\"button\">Home</button></a></div>";
+                    }
                 }
             }
-            else
-            {
-                res += "<h2>Attenzione, i posti scelti non sono più disponibili</h2>";
-            }
+            res += "</body>\n" +
+                    "</html>";
         }
-        res +=  "</body>\n" +
-                "</html>";
-
         PrintWriter out = response.getWriter();
         out.println(res);
     }

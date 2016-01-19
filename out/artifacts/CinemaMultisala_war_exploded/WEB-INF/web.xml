@@ -60,7 +60,7 @@
 
     <servlet-mapping>
         <servlet-name>Serv_cancPrenotation</servlet-name>
-        <url-pattern>/canc</url-pattern>
+        <url-pattern>/prenotation/canc</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Serv_user</servlet-name>

@@ -52,7 +52,7 @@ public class Serv_userSpettacolo extends HttpServlet {
                 "<head>\n" +
                 "    <title>Cinema Multisala</title>\n" +
                 "    <link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css\">\n" +
-                "    <link href=\"CSS/mycss.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
+                "    <link href=\"../CSS/mycss.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
                 "\n" +
                 "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js\"></script>\n" +
                 "    <script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js\"></script>\n" +
@@ -61,6 +61,9 @@ public class Serv_userSpettacolo extends HttpServlet {
         res += "<body>";
 
         res += responseWrapper.toString();
+
+        res +="<div class=\"col-md-1 sidebar\"></div>" ;
+        res +="<div class=\"col-md-10\">" ;
 
         HttpSession s = null;
         s = request.getSession(false);
@@ -109,7 +112,7 @@ public class Serv_userSpettacolo extends HttpServlet {
             //btn cancellazione
             body += "<div class = \"row\">";
             body += "<form name=\"cancellazione\" method=\"post\" action=\"http://localhost:8080/CinemaMultisala_war_exploded/prenotation/canc\">";
-            body += "<button type=\"submit\" name=\"canc\" class=\"btn btn-primary\" id=\"btnCancellazione\"type=\"button\">Cancellazione prenotazione/i</button>";
+            body += "<button type=\"submit\" name=\"canc\" class=\"btn btn-primary bottombutton\" id=\"btnCancellazione\"type=\"button\">Cancellazione prenotazione/i</button>";
             body += "</form>";
 
             body += "</row>";
@@ -167,11 +170,15 @@ public class Serv_userSpettacolo extends HttpServlet {
         }
         else
         {
-
             body += "USER MODE";// TODO: 17/01/16
         }
 
         res += body;
+
+        res +="</div>" ;
+        res +="<div class=\"col-md-1 sidebar\"></div>" ;
+
+
 
         PrintWriter out = response.getWriter();
         out.println(res);

@@ -52,7 +52,11 @@ public class Serv_prenotation extends HttpServlet {
                 "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js\"></script>\n" +
                 "    <script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js\"></script>\n" +
                 "</head>\n" +
-                "<body>";
+                "<body>" ;
+
+        res +="<div class=\"col-md-1 sidebar\"></div>" ;
+        res +="<div class=\"col-md-10\">" ;
+
         res += responseWrapper.toString();
 
 
@@ -65,10 +69,11 @@ public class Serv_prenotation extends HttpServlet {
 
 
                 for (int i = 0; i < spettacoli.size(); i++) {
+
+                    res += "<div class=\"row text-center\">";
                     res += spettacoli.get(i).getDataOra();
-                    res += "<div class=\"row\">" +
-                            "<a href=\"http://localhost:8080/CinemaMultisala_war_exploded/prenotation/spett?id=" + spettacoli.get(i).getIdSpettacolo() + "\">" +
-                            "<button type=\"button\" class=\"btn btn-primary\">Prenota</button>" +
+                    res += "<a href=\"http://localhost:8080/CinemaMultisala_war_exploded/prenotation/spett?id=" + spettacoli.get(i).getIdSpettacolo() + "\">" +
+                            "<button type=\"button\" class=\"btn btn-primary left\">Prenota</button>" +
                             "</a>" +
                             "</div>" +
                             "</br>";
@@ -77,8 +82,11 @@ public class Serv_prenotation extends HttpServlet {
 
         res += "\n" +
                 "<footer>\n" +
-                "</footer>\n" +
-                "</body>\n" +
+                "</footer>\n";
+
+        res +="</div>";
+        res +="<div class=\"col-md-1 sidebar\"></div>" ;
+        res +="</body>\n" +
                 "</html>";
 
         PrintWriter out = response.getWriter();

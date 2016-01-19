@@ -66,35 +66,35 @@ public class Serv_openFilm extends HttpServlet {
 
             res+=   "<div class=\"row\">" ;
 
-            res +="<div class=\"col-md-1\"></div>" ;
+            res +="<div class=\"col-md-1 sidebar\"></div>" ;
             res +="<div class=\"col-md-10\">" ;
 
 
 
 
-            res += "<img alt=\""+film.getTitolo()+"\" class=\"film-img img-responsive img-thumbnail\" src=\'"+film.getUriLocandina()+"\'/>";
+            res += "<center><img alt=\""+film.getTitolo()+"\" class=\"film-img img-responsive img-thumbnail\" src=\'"+film.getUriLocandina()+"\'/></center>";
 
 
-            res += "\n<div class=\"film-title\"><h2>Titolo :</h2> \n"+film.getTitolo() + "</div>\n";
-            res += "\n<div class=\"film-trama\"><h2>Trama :</h2> \n"+film.getTrama() + "</div>\n";
+            res += "\n<div class=\"text-center\"><h2 class=\"text-center film-title\">Titolo</h2>\n"+film.getTitolo() + "</div>\n";
+            res += "\n<div class=\"text-center\"><h2 class=\"text-center film-trama\">Trama</h2>\n"+film.getTrama() + "</div>\n";
 
-            res += "\n<div class=\"film-trailer\"><h2>Trailer :</h2><iframe width=\"420\" height=\"345\" src=\""+film.getUrlTrailer()+"\"></iframe></div>";
+            res += "\n<div class=\"text-center\"><h2 class=\"text-center film-trailer\">Trailer</h2>\n<iframe width=\"420\" height=\"345\" src=\""+film.getUrlTrailer()+"\"></iframe></div>";
 
 
             res += "\n" +
-                    "<footer>\n" +
+                    "<footer class=\"text-center\">\n" +
                     "\n" +
 
                     "<div class=\"row\">" +
                     "<a href=\"http://localhost:8080/CinemaMultisala_war_exploded/prenotation?id="+film.getIdFilm()+"\">" +
-                    "<button type=\"button\" class=\"btn btn-primary\">Prenota</button>"+
+                    "<button type=\"button\" class=\"btn bottombutton btn-primary\">Prenota</button>"+
                     "</a>" +
                     "</div>"+
 
                     "</footer>\n";
 
                     res +="</div>";
-                    res +="<div class=\"col-md-1\"></div>" ;
+                    res +="<div class=\"col-md-1 sidebar\"></div>" ;
 
 
                     res += "</div>" +

@@ -1,3 +1,8 @@
+html
+{
+    font-size: large;
+}
+
 #filmsPreview
 {
     height: 250px;
@@ -41,14 +46,121 @@
 
 .film-img
 {
-    width: 200px;
+    width: 325px;
 }
 
 .film-title
 {
+    border-top: solid firebrick 1px;
+    border-bottom: solid firebrick 1px;
+    background-color: darkgrey;
+    color: white;
 }
 
 .film-trama
 {
+    border-top: solid firebrick 1px;
+    border-bottom: solid firebrick 1px;
+    background-color: darkgrey;
+    color: white;
+}
 
+.film-trailer
+{
+    border-top: solid firebrick 1px;
+    border-bottom: solid firebrick 1px;
+    background-color: darkgrey;
+    color: white;
+}
+
+header
+{
+    height: 100px;
+    margin-bottom: 35px;
+
+}
+
+.titleandlogin
+{
+    padding-left : 150px;
+    padding-right: 150px;
+}
+
+.titleandlogin h1
+{
+    float: left;
+    color:whitesmoke;
+
+    margin-bottom : 25px;
+}
+
+.titleandlogin .left
+{
+    float: left;
+    margin-top: 25px;
+    margin-right:5px;
+    margin-left:5px;
+}
+
+.titleandlogin .right
+{
+    float: right;
+    margin-top: 25px;
+    margin-right:5px;
+    margin-left:5px;
+}
+.titleandlogin form .right
+{
+    float: right;
+    margin-top: 25px;
+    margin-right:5px;
+    margin-left:5px;
+}
+
+.navbar
+{
+    background-color: firebrick;
+}
+
+.right
+{
+    float : right;
+}
+
+.bottombutton
+{
+    border-top: solid grey 1px;
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+.titleandlogin .userpreview
+{
+    color: white;
+
+    float: right;
+    margin-top: 18px;
+    margin-right:15px;
+    margin-left:5px;
+}
+
+.adminrow {
+    border-bottom: solid 1px gray;
+    margin-bottom: 5px;
+}
+
+.spettacolorow button
+{
+    margin-left: 100px;
+}
+.spettacolorow
+{
+    width : 99%;
+    margin : auto;
+}
+
+.left
+{
+    margin-left: 25px;
+    margin-right: 25px;
 }

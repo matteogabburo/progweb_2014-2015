@@ -64,7 +64,7 @@ public class Serv_prenSpett extends HttpServlet {
                     "<head>\n" +
                     "    <title>Cinema Multisala</title>\n" +
                     "    <link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css\">\n" +
-                    "    <link href=\"CSS/mycss.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
+                    "    <link href=\"../CSS/mycss.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
                     "\n" +
                     "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js\"></script>\n" +
                     "    <script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js\"></script>\n" +
@@ -73,6 +73,9 @@ public class Serv_prenSpett extends HttpServlet {
             res += "<body>";
             res += responseWrapper.toString();
 
+            res += "<div class=\"col-md-1\"></div>\n" +
+                    "<div class=\"col-md-10\">" +
+                    "<div class=\"col-md-12\">";
 
             //genero matrice posti
             int postiX = 5;
@@ -87,34 +90,32 @@ public class Serv_prenSpett extends HttpServlet {
                 sala[posti.get(i).getRiga()][posti.get(i).getColonna()] = this.imgPostoOccupato;
             }
 
+            res+= "<form class=\"text-center\">\n" +
+                    "<h2>Tipo di biglietto</h2>" +
+                    " Normale <input type=\"radio\" name=\"tipobiglietto\" id = \"normale\" checked/></br>\n" +
+                    " Ridotto <input type=\"radio\" name=\"tipobiglietto\" id = \"ridotto\"/>\n" +
+                    "</form> ";
+
+
             //disegno sala (posso metterla in un filtro)
-            res += "<table>";
+            res += "<center><table class=\"pagination-centered\">";
             for(int i = 0; i < postiX; i++) {
                 res+="<tr>";
                 for (int j = 0; j < postiY; j++) {
                     res += "<td>";
                     res += "<a type=\"button\" class=\"descr\" id=\""+"x"+i+"y"+j+"A"+"\">";
-                    res += "<img src=\""+sala[i][j]+"\" id=\"im"+"x"+i+"y"+j+"A\" height=\"40px\" width=\"40px\"/>";
+                    res += "<img src=\""+sala[i][j]+"\" id=\"im"+"x"+i+"y"+j+"A\" height=\"60px\" width=\"60px\"/>";
                     res += "</a>";
                     res += "</td>";
                 }
                 res+="</tr>";
             }
-            res += "</table>";
+            res += "</table></center>";
 
             res += "\n" +
-                    "<footer>\n" +
+                    "<footer class=\"text-center\">\n" +
 
-                    "<form>\n" +
-                    "<h2>Tipo di biglietto</h2>" +
-                    " Normale <input type=\"radio\" name=\"tipobiglietto\" id = \"normale\" checked/></br>\n" +
-                    " Ridotto <input type=\"radio\" name=\"tipobiglietto\" id = \"ridotto\"/>\n" +
-                    "</form> "+
-
-
-                    "<div>Totale costo biglietto/i : <div id=\"displayPrezzo\">0</div> €</div>"+
-
-
+                    "<div><h3>Totale costo biglietto/i : <div id=\"displayPrezzo\">0</div> €</h3></div>"+
 
                     "<form name=\"pagare\" method=\"post\" action=\"http://localhost:8080/CinemaMultisala_war_exploded/prenotation/spett/endprenotation\">"+
                     "<button type=\"submit\" name=\"prenotation\" class=\"btn btn-primary\" id=\"btnPrenotazione\"type=\"button\">Procedi con Pagamento</button>"+
@@ -122,6 +123,10 @@ public class Serv_prenSpett extends HttpServlet {
 
 
                     "</footer>\n" +
+
+                    "</div>\n" +
+                    "</div>\n" +
+                    "<div class=\"col-md-1\"></div>\n" +
 
                     "<script type=\"text/javascript\" src=\"http://code.jquery.com/jquery-latest.min.js\"></script>\n" +
 
@@ -177,6 +182,7 @@ public class Serv_prenSpett extends HttpServlet {
                     "                            });" +
                     "                        });" +
                     "                    </script>"+
+
 
                     "</body>\n" +
                     "</html>";

@@ -44,6 +44,8 @@ public class Serv_cancPrenotation extends HttpServlet {
         List<Posto> posti = new ArrayList<>();
         Posto posto;
 
+        MultisalaDAO dao = new MultisalaDAO();
+
         while(param.contains("im"))
         {
             i1 = param.indexOf("imx")+3;
@@ -59,7 +61,8 @@ public class Serv_cancPrenotation extends HttpServlet {
             posto = new Posto();
             posto.setRiga(x);
             posto.setColonna(y);
-            posti.add(posto);
+
+            posti.add(dao.getPostoByRigaColonnaIdSpettacolo(posto.getRiga(), posto.getColonna(), idSpett));
         }
 
         HttpSession s = null;
@@ -80,14 +83,17 @@ public class Serv_cancPrenotation extends HttpServlet {
 
         if(s.getAttribute("USER_MAIL") == null)
         {
-            res += "<h2>Attenzione per procedere con la cancellazione della prenotazione devi effettuare il login Effettua il login</h2>";
+             res += "<div class=\"text-center\"><h2>Attenzione per procedere con l'eliminazione devi effettuare il login Effettua il login</h2>" +
+                    "<a href=\"http://localhost:8080/CinemaMultisala_war_exploded\"><button class=\"btn btn-primary\" type=\"button\">Home</button></a></div>";
         }
         else {
-            MultisalaDAO  dao = new MultisalaDAO();
             String mailUser;
             for(int i = 0; i < posti.size(); i++)
             {
                 mailUser = dao.getMailFromPosto(posti.get(i));
+
+                System.out.println("??????????????????????????????????????????????????" +mailUser);
+
                 if(dao.cancellazionePrenotazione(posti.get(i)))
                 {
                     MailSender mail = new MailSender();
@@ -101,27 +107,10 @@ public class Serv_cancPrenotation extends HttpServlet {
                 }
                 else
                 {
-                    res += "<h2>Errore cancellazione prenotazione</h2>";
+                    res += "<div class=\"text-center\"><h2>Errore cancellazione prenotazione</h2>" +
+                            "<a href=\"http://localhost:8080/CinemaMultisala_war_exploded\"><button class=\"btn btn-primary\" type=\"button\">Home</button></a></div>";
                 }
             }
-
-            /*if(dao.newPrenotation(mailuser, posti, idSpett) == true)
-            {
-                MailSender mail = new MailSender();
-                try {
-                    mail.sendPrenotationMessage(mailuser, idSpett);
-                } catch (NamingException e) {
-                    e.printStackTrace();
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                }
-                res += s.getAttribute("USER_MAIL");
-                res += "<h2>Prenotazione completata, controlla la tua mail!</h2>";
-            }
-            else
-            {
-                res += "<h2>Errore registrazione prenotazione</h2>";
-            }*/
         }
         res +=  "</body>\n" +
                 "</html>";
