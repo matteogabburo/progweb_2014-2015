@@ -26,7 +26,7 @@
         <div class="col-md-12">
             <h2 class ="center-text film-title">Chi siamo</h2>
             <p>
-                <b>Cinema Multisala</b> è un progetto sviluppato da Gabburo Matteo per il corso di Programmazione Web dell'Università di Trento.
+                <b>Cinema Multisala</b> è un progetto sviluppato da Gabburo Matteo per il corso di Introduzione alla Programmazione Web dell'Università di Trento.
                 </br><b>Non</b> è da intendersi come prodotto commerciale, ma utile <b>solo</b> a fini didattici.
             </p>
             <h2 class ="center-text film-title">Descrizione</h2>
