@@ -16,6 +16,41 @@ public class MultisalaDAO {
     private final String PASS = " ";
 
 
+    public boolean sendInsertQuery(String query)
+    {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        int rs = 0;
+        boolean s = false;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.prepareStatement(query);
+            rs = stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(rs > 0)
+            s = true;
+
+        try{
+            if (stmt != null)
+                stmt.close();
+            if (conn != null)
+                conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return s;
+    }
+
+
+
     public List<Spettacolo> allShowsByIdFilm(int idFilm) {
         String query = "select * from APP.FILM" +
                 " left join APP.SPETTACOLO on FILM.ID_FILM = SPETTACOLO.ID_FILM" +
@@ -1491,5 +1526,47 @@ public class MultisalaDAO {
         }
 
         return null;
+    }
+
+    public void removeAllSpettacoliPrenotazioniAndPosti() {
+        String query1 = "DELETE FROM APP.PRENOTAZIONE";
+        String query2 = "DELETE FROM APP.SPETTACOLO";
+        String query3 = "DELETE FROM APP.POSTO";
+
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        int rs = 0;
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.prepareStatement(query1);
+            rs = stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.prepareStatement(query2);
+            rs = stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            DriverManager.registerDriver(new org.apache.derby.jdbc.ClientDriver());
+            conn = DriverManager.getConnection(DB_URL);//,USER,PASS);
+            stmt = conn.prepareStatement(query3);
+            rs = stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
