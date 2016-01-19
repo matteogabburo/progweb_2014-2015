@@ -25,6 +25,21 @@ public class Spettacolo {
     public Timestamp getDataOra() {
         return dataOra;
     }
+
+    public String getDataOraToString()
+    {
+        String res = "";
+
+        res += "Giorno : "+this.dataOra.getDay();
+        res += "/"+this.dataOra.getMonth();
+        res += "/"+this.dataOra.getYear();
+
+        res += " alle "+ this.dataOra.getHours();
+        res += ":"+ this.dataOra.getMinutes();
+
+        return res;
+    }
+
     public void setDataOra(Timestamp dataOra) {
         this.dataOra = dataOra;
     }

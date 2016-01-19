@@ -1,16 +1,45 @@
-<%--
+<%@ page import="com.sun.org.apache.xpath.internal.operations.Mult" %>
+<%@ page import="introwebprog.dao.MultisalaDAO" %><%--
   Created by IntelliJ IDEA.
   User: matteo
-  Date: 18/01/16
-  Time: 19.43
+  Date: 18/12/15
+  Time: 11.38
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <html>
 <head>
-    <title>Title</title>
+    <title>Cinema Multisala</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link href="CSS/mycss.css" rel="stylesheet" type="text/css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
+<jsp:include page="includes/header.jsp" />
+<div class="col-md-1 sidebar"></div>
+<div class="col-md-10">
+    <div class = "row">
+        <!-- **************************************** -->
+        <div class="col-md-12">
+            <h1 class="center-text film-title">Informativa prezzi</h1>
+            <p>Vi sono 2 tipi di <b>biglietto</b> :
+            <ul><li><b>Normale</b> : <%@ page import="introwebprog.dao.MultisalaDAO" %><%
+            MultisalaDAO dao = new MultisalaDAO(); out.print(dao.getPrezzoByIdPrezzo(1).getPrezzo());%> €</li>
+            <li><b>Ridotto</b> : <%@ page import="introwebprog.dao.MultisalaDAO" %><%
+                out.print(dao.getPrezzoByIdPrezzo(2).getPrezzo());%> €</li></ul></p>
+        </div>
+        <!-- ************************************************** -->
+    </div>
 
+    <footer>
+
+    </footer>
+
+</div>
+<div class="col-md-1 sidebar"></div>
 </body>
 </html>

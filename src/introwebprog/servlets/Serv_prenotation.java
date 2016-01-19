@@ -13,6 +13,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 /**
  * Created by matteo on 11/01/16.
  */
@@ -44,7 +47,8 @@ public class Serv_prenotation extends HttpServlet {
 
         String res = "";
         res += "<html>\n" +
-                "<head>\n" +
+                "<head>" +
+                "<meta charset=\"utf-8\">\n" +
                 "    <title>Cinema Multisala</title>\n" +
                 "    <link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css\">\n" +
                 "    <link href=\"CSS/mycss.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
@@ -67,16 +71,20 @@ public class Serv_prenotation extends HttpServlet {
                 MultisalaDAO dao = new MultisalaDAO();
                 List<Spettacolo> spettacoli = dao.getSpettacoloByFilmId(idfilm);
 
-
+                Date date= new Date();
                 for (int i = 0; i < spettacoli.size(); i++) {
+                    //ceck se gli spettacoli sono già stati proiettati
+                    if(new Timestamp(date.getTime()).before(spettacoli.get(i).getDataOra()))
+                    {
+                        res += "<div class=\"row text-center\">";
+                        res += spettacoli.get(i).getDataOraToString();
+                        res += "<a href=\"http://localhost:8080/CinemaMultisala_war_exploded/prenotation/spett?id=" + spettacoli.get(i).getIdSpettacolo() + "\">" +
+                                "<button type=\"button\" class=\"btn btn-primary left\">Prenota</button>" +
+                                "</a>" +
+                                "</div>" +
+                                "</br>";
 
-                    res += "<div class=\"row text-center\">";
-                    res += spettacoli.get(i).getDataOra();
-                    res += "<a href=\"http://localhost:8080/CinemaMultisala_war_exploded/prenotation/spett?id=" + spettacoli.get(i).getIdSpettacolo() + "\">" +
-                            "<button type=\"button\" class=\"btn btn-primary left\">Prenota</button>" +
-                            "</a>" +
-                            "</div>" +
-                            "</br>";
+                    }
                 }
             }
 

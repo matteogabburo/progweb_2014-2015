@@ -72,6 +72,7 @@ public class Serv_cancPrenotation extends HttpServlet {
 
         res += "<html>\n" +
                 "<head>\n" +
+                "<meta charset=\"utf-8\">" +
                 "    <title>Cinema Multisala</title>\n" +
                 "    <link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css\">\n" +
                 "    <link href=\"CSS/mycss.css\" rel=\"stylesheet\" type=\"text/css\">\n" +

@@ -44,7 +44,8 @@ public class Serv_user extends HttpServlet {
         String res = "";
 
         res += "<html>\n" +
-                "<head>\n" +
+                "<head>" +
+                "<meta charset=\"utf-8\">\n" +
                 "    <title>Cinema Multisala</title>\n" +
                 "    <link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css\">\n" +
                 "    <link href=\"CSS/mycss.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
@@ -108,7 +109,7 @@ public class Serv_user extends HttpServlet {
                 for(int j = 0; j < spettacoli.size(); j++ )
                 {
                     body += "<a href =\"http://localhost:8080/CinemaMultisala_war_exploded/user/spettacolo?id="+spettacoli.get(j).getIdSpettacolo()+"\">";
-                    body += spettacoli.get(j).getDataOra();
+                    body += spettacoli.get(j).getDataOraToString();
                     body += "</a></br>";
                 }
 
